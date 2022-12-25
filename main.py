@@ -91,11 +91,10 @@ def p_statement_assign(t):
 
 def p_function_declaration(t):
     'statement : declaration LPAREN args RPAREN LBRACKET body RBRACKET'
-    print('Declared function: ', t)
+    print('Declared function: ', t[3])
 
 def p_declaration(t):
     'declaration : type ID'
-    print(t[1], t[2])
     t[0] = t[2]
 
 def p_body(t):
@@ -103,9 +102,14 @@ def p_body(t):
             | empty'''
 
 def p_args(t):
-    '''args : declaration
-            | declaration COMMA declaration
+    '''args : declaration COMMA args
+            | declaration
             | empty'''
+
+    if len(t) == 4:
+        t[0] = t[3] + [t[1]]
+    elif t[1] is not None:
+        t[0] = [t[1]]
 
 def p_statement_expr(t):
     'statement : expression'

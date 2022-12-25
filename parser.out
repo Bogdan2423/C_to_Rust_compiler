@@ -16,8 +16,8 @@ Rule 4     statement -> declaration LPAREN args RPAREN LBRACKET body RBRACKET
 Rule 5     declaration -> type ID
 Rule 6     body -> line body
 Rule 7     body -> empty
-Rule 8     args -> declaration
-Rule 9     args -> declaration COMMA declaration
+Rule 8     args -> declaration COMMA args
+Rule 9     args -> declaration
 Rule 10    args -> empty
 Rule 11    statement -> expression
 Rule 12    expression -> expression PLUS expression
@@ -37,7 +37,7 @@ Rule 24    empty -> <empty>
 Terminals, with rules where they appear
 
 CHAR                 : 23
-COMMA                : 9
+COMMA                : 8
 DIVIDE               : 15
 DOUBLE               : 22
 ELSE                 : 
@@ -61,9 +61,9 @@ error                :
 
 Nonterminals, with rules where they appear
 
-args                 : 4
+args                 : 4 8
 body                 : 4 6
-declaration          : 3 4 8 9 9
+declaration          : 3 4 8 9
 empty                : 7 10
 expression           : 2 3 11 12 12 13 13 14 14 15 15 16 17
 line                 : 6 0
@@ -385,8 +385,8 @@ state 21
 state 22
 
     (4) statement -> declaration LPAREN . args RPAREN LBRACKET body RBRACKET
-    (8) args -> . declaration
-    (9) args -> . declaration COMMA declaration
+    (8) args -> . declaration COMMA args
+    (9) args -> . declaration
     (10) args -> . empty
     (5) declaration -> . type ID
     (24) empty -> .
@@ -568,11 +568,11 @@ state 31
 
 state 32
 
-    (8) args -> declaration .
-    (9) args -> declaration . COMMA declaration
+    (8) args -> declaration . COMMA args
+    (9) args -> declaration .
 
-    RPAREN          reduce using rule 8 (args -> declaration .)
     COMMA           shift and go to state 36
+    RPAREN          reduce using rule 9 (args -> declaration .)
 
 
 state 33
@@ -603,19 +603,26 @@ state 35
 
 state 36
 
-    (9) args -> declaration COMMA . declaration
+    (8) args -> declaration COMMA . args
+    (8) args -> . declaration COMMA args
+    (9) args -> . declaration
+    (10) args -> . empty
     (5) declaration -> . type ID
+    (24) empty -> .
     (20) type -> . INT
     (21) type -> . FLOAT
     (22) type -> . DOUBLE
     (23) type -> . CHAR
 
+    RPAREN          reduce using rule 24 (empty -> .)
     INT             shift and go to state 11
     FLOAT           shift and go to state 12
     DOUBLE          shift and go to state 13
     CHAR            shift and go to state 14
 
-    declaration                    shift and go to state 38
+    declaration                    shift and go to state 32
+    args                           shift and go to state 38
+    empty                          shift and go to state 34
     type                           shift and go to state 7
 
 state 37
@@ -627,9 +634,9 @@ state 37
 
 state 38
 
-    (9) args -> declaration COMMA declaration .
+    (8) args -> declaration COMMA args .
 
-    RPAREN          reduce using rule 9 (args -> declaration COMMA declaration .)
+    RPAREN          reduce using rule 8 (args -> declaration COMMA args .)
 
 
 state 39
