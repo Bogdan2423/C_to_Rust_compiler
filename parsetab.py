@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDErightUMINUSCHAR COMMA DIVIDE DOUBLE ELSE EQUALS FLOAT ID IF INT LBRACKET LPAREN MINUS NAME NUMBER PLUS RBRACKET RPAREN SEMICOLON TIMES WHILEline : statement SEMICOLONstatement : ID EQUALS expression\n                | declaration EQUALS expressionstatement : declaration LPAREN args RPAREN LBRACKET body RBRACKETdeclaration : type IDbody : line body\n            | emptyargs : declaration COMMA args\n            | declaration\n            | emptystatement : expressionexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : MINUS expression %prec UMINUSexpression : LPAREN expression RPARENexpression : NUMBERexpression : NAMEtype : INT\n              | FLOAT\n              | DOUBLE\n              | CHARempty :'
+_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDErightUMINUSCHAR COMMA DIVIDE DOUBLE ELSE EQUALS FLOAT ID IF INT LBRACKET LPAREN MINUS NAME NUMBER PLUS RBRACKET RETURN RPAREN SEMICOLON TIMES VOID WHILEline : statement SEMICOLONstatement : ID EQUALS expression\n                | declaration EQUALS expressionstatement : VOID ID LPAREN args RPAREN LBRACKET body RBRACKETstatement : type ID LPAREN args RPAREN LBRACKET body RBRACKETdeclaration : type IDbody : line body\n            | emptyargs : declaration COMMA args\n            | declaration\n            | emptystatement : RETURN ID\n                | RETURN NUMBERexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression TIMES expression\n                  | expression DIVIDE expressionexpression : MINUS expression %prec UMINUSexpression : LPAREN expression RPARENexpression : NUMBERtype : INT\n              | FLOAT\n              | DOUBLE\n              | CHARempty :'
     
-_lr_action_items = {'ID':([0,7,11,12,13,14,15,39,41,],[3,24,-20,-21,-22,-23,-1,3,3,]),'MINUS':([0,4,6,8,9,10,15,16,17,18,19,20,21,23,25,26,27,28,29,30,31,35,39,41,],[8,18,8,8,-18,-19,-1,8,8,8,8,8,8,18,-16,18,-12,-13,-14,-15,18,-17,8,8,]),'LPAREN':([0,5,6,8,15,16,17,18,19,20,21,24,39,41,],[6,22,6,6,-1,6,6,6,6,6,6,-5,6,6,]),'NUMBER':([0,6,8,15,16,17,18,19,20,21,39,41,],[9,9,9,-1,9,9,9,9,9,9,9,9,]),'NAME':([0,6,8,15,16,17,18,19,20,21,39,41,],[10,10,10,-1,10,10,10,10,10,10,10,10,]),'INT':([0,15,22,36,39,41,],[11,-1,11,11,11,11,]),'FLOAT':([0,15,22,36,39,41,],[12,-1,12,12,12,12,]),'DOUBLE':([0,15,22,36,39,41,],[13,-1,13,13,13,13,]),'CHAR':([0,15,22,36,39,41,],[14,-1,14,14,14,14,]),'$end':([1,15,],[0,-1,]),'SEMICOLON':([2,4,9,10,25,26,27,28,29,30,31,35,43,],[15,-11,-18,-19,-16,-2,-12,-13,-14,-15,-3,-17,-4,]),'EQUALS':([3,5,24,],[16,21,-5,]),'PLUS':([4,9,10,23,25,26,27,28,29,30,31,35,],[17,-18,-19,17,-16,17,-12,-13,-14,-15,17,-17,]),'TIMES':([4,9,10,23,25,26,27,28,29,30,31,35,],[19,-18,-19,19,-16,19,19,19,-14,-15,19,-17,]),'DIVIDE':([4,9,10,23,25,26,27,28,29,30,31,35,],[20,-18,-19,20,-16,20,20,20,-14,-15,20,-17,]),'RPAREN':([9,10,22,23,24,25,27,28,29,30,32,33,34,35,36,38,],[-18,-19,-24,35,-5,-16,-12,-13,-14,-15,-9,37,-10,-17,-24,-8,]),'RBRACKET':([15,39,40,41,42,44,],[-1,-24,43,-24,-7,-6,]),'COMMA':([24,32,],[-5,36,]),'LBRACKET':([37,],[39,]),}
+_lr_action_items = {'ID':([0,5,6,7,8,9,10,11,12,35,46,48,50,],[3,15,16,17,-21,-22,-23,-24,-1,44,3,3,3,]),'VOID':([0,12,46,48,50,],[5,-1,5,5,5,]),'RETURN':([0,12,46,48,50,],[7,-1,7,7,7,]),'INT':([0,12,24,25,43,46,48,50,],[8,-1,8,8,8,8,8,8,]),'FLOAT':([0,12,24,25,43,46,48,50,],[9,-1,9,9,9,9,9,9,]),'DOUBLE':([0,12,24,25,43,46,48,50,],[10,-1,10,10,10,10,10,10,]),'CHAR':([0,12,24,25,43,46,48,50,],[11,-1,11,11,11,11,11,11,]),'$end':([1,12,],[0,-1,]),'SEMICOLON':([2,17,18,19,22,23,30,37,38,39,40,41,53,55,],[12,-12,-13,-2,-20,-3,-18,-14,-15,-16,-17,-19,-4,-5,]),'EQUALS':([3,4,16,],[13,14,-6,]),'NUMBER':([7,13,14,20,21,26,27,28,29,],[18,22,22,22,22,22,22,22,22,]),'RBRACKET':([12,46,48,49,50,51,52,54,],[-1,-25,-25,53,-25,-8,55,-7,]),'MINUS':([13,14,19,20,21,22,23,26,27,28,29,30,31,37,38,39,40,41,],[20,20,27,20,20,-20,27,20,20,20,20,-18,27,-14,-15,-16,-17,-19,]),'LPAREN':([13,14,15,16,20,21,26,27,28,29,],[21,21,24,25,21,21,21,21,21,21,]),'PLUS':([19,22,23,30,31,37,38,39,40,41,],[26,-20,26,-18,26,-14,-15,-16,-17,-19,]),'TIMES':([19,22,23,30,31,37,38,39,40,41,],[28,-20,28,-18,28,28,28,-16,-17,-19,]),'DIVIDE':([19,22,23,30,31,37,38,39,40,41,],[29,-20,29,-18,29,29,29,-16,-17,-19,]),'RPAREN':([22,24,25,30,31,32,33,34,36,37,38,39,40,41,43,44,47,],[-20,-25,-25,-18,41,42,-10,-11,45,-14,-15,-16,-17,-19,-25,-6,-9,]),'COMMA':([33,44,],[43,-6,]),'LBRACKET':([42,45,],[46,48,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'line':([0,39,41,],[1,41,41,]),'statement':([0,39,41,],[2,2,2,]),'expression':([0,6,8,16,17,18,19,20,21,39,41,],[4,23,25,26,27,28,29,30,31,4,4,]),'declaration':([0,22,36,39,41,],[5,32,32,5,5,]),'type':([0,22,36,39,41,],[7,7,7,7,7,]),'args':([22,36,],[33,38,]),'empty':([22,36,39,41,],[34,34,42,42,]),'body':([39,41,],[40,44,]),}
+_lr_goto_items = {'line':([0,46,48,50,],[1,50,50,50,]),'statement':([0,46,48,50,],[2,2,2,2,]),'declaration':([0,24,25,43,46,48,50,],[4,33,33,33,4,4,4,]),'type':([0,24,25,43,46,48,50,],[6,35,35,35,6,6,6,]),'expression':([13,14,20,21,26,27,28,29,],[19,23,30,31,37,38,39,40,]),'args':([24,25,43,],[32,36,47,]),'empty':([24,25,43,46,48,50,],[34,34,34,51,51,51,]),'body':([46,48,50,],[49,52,54,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,28 +27,29 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> line","S'",1,None,None,None),
-  ('line -> statement SEMICOLON','line',2,'p_line','main.py',83),
-  ('statement -> ID EQUALS expression','statement',3,'p_statement_assign','main.py',87),
-  ('statement -> declaration EQUALS expression','statement',3,'p_statement_assign','main.py',88),
-  ('statement -> declaration LPAREN args RPAREN LBRACKET body RBRACKET','statement',7,'p_function_declaration','main.py',93),
-  ('declaration -> type ID','declaration',2,'p_declaration','main.py',97),
-  ('body -> line body','body',2,'p_body','main.py',102),
-  ('body -> empty','body',1,'p_body','main.py',103),
-  ('args -> declaration COMMA args','args',3,'p_args','main.py',106),
-  ('args -> declaration','args',1,'p_args','main.py',107),
-  ('args -> empty','args',1,'p_args','main.py',108),
-  ('statement -> expression','statement',1,'p_statement_expr','main.py',115),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','main.py',119),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','main.py',120),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','main.py',121),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','main.py',122),
-  ('expression -> MINUS expression','expression',2,'p_expression_uminus','main.py',129),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','main.py',133),
-  ('expression -> NUMBER','expression',1,'p_expression_number','main.py',137),
-  ('expression -> NAME','expression',1,'p_expression_name','main.py',141),
-  ('type -> INT','type',1,'p_type','main.py',149),
-  ('type -> FLOAT','type',1,'p_type','main.py',150),
-  ('type -> DOUBLE','type',1,'p_type','main.py',151),
-  ('type -> CHAR','type',1,'p_type','main.py',152),
-  ('empty -> <empty>','empty',0,'p_empty','main.py',156),
+  ('line -> statement SEMICOLON','line',2,'p_line','main.py',90),
+  ('statement -> ID EQUALS expression','statement',3,'p_statement_assign','main.py',94),
+  ('statement -> declaration EQUALS expression','statement',3,'p_statement_assign','main.py',95),
+  ('statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET','statement',8,'p_void_function_declaration','main.py',99),
+  ('statement -> type ID LPAREN args RPAREN LBRACKET body RBRACKET','statement',8,'p_function_declaration','main.py',103),
+  ('declaration -> type ID','declaration',2,'p_declaration','main.py',120),
+  ('body -> line body','body',2,'p_body','main.py',124),
+  ('body -> empty','body',1,'p_body','main.py',125),
+  ('args -> declaration COMMA args','args',3,'p_args','main.py',135),
+  ('args -> declaration','args',1,'p_args','main.py',136),
+  ('args -> empty','args',1,'p_args','main.py',137),
+  ('statement -> RETURN ID','statement',2,'p_return_statement','main.py',146),
+  ('statement -> RETURN NUMBER','statement',2,'p_return_statement','main.py',147),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','main.py',151),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','main.py',152),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop','main.py',153),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','main.py',154),
+  ('expression -> MINUS expression','expression',2,'p_expression_uminus','main.py',161),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','main.py',165),
+  ('expression -> NUMBER','expression',1,'p_expression_number','main.py',169),
+  ('type -> INT','type',1,'p_type','main.py',173),
+  ('type -> FLOAT','type',1,'p_type','main.py',174),
+  ('type -> DOUBLE','type',1,'p_type','main.py',175),
+  ('type -> CHAR','type',1,'p_type','main.py',176),
+  ('empty -> <empty>','empty',0,'p_empty','main.py',180),
 ]
