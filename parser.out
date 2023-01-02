@@ -1,825 +1,1862 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    ELSE
-    IF
-    NAME
-    WHILE
-
 Grammar
 
-Rule 0     S' -> line
-Rule 1     line -> statement SEMICOLON
-Rule 2     statement -> ID EQUALS expression
-Rule 3     statement -> declaration EQUALS expression
-Rule 4     statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-Rule 5     statement -> type ID LPAREN args RPAREN LBRACKET body RBRACKET
-Rule 6     declaration -> type ID
-Rule 7     body -> line body
-Rule 8     body -> empty
-Rule 9     args -> declaration COMMA args
-Rule 10    args -> declaration
-Rule 11    args -> empty
-Rule 12    statement -> RETURN ID
-Rule 13    statement -> RETURN NUMBER
-Rule 14    expression -> expression PLUS expression
-Rule 15    expression -> expression MINUS expression
-Rule 16    expression -> expression TIMES expression
-Rule 17    expression -> expression DIVIDE expression
-Rule 18    expression -> MINUS expression
-Rule 19    expression -> LPAREN expression RPAREN
-Rule 20    expression -> NUMBER
-Rule 21    type -> INT
-Rule 22    type -> FLOAT
-Rule 23    type -> DOUBLE
-Rule 24    type -> CHAR
-Rule 25    empty -> <empty>
+Rule 0     S' -> program
+Rule 1     program -> function_declaration
+Rule 2     line -> statement SEMICOLON
+Rule 3     line -> expression SEMICOLON
+Rule 4     line -> loop_statement
+Rule 5     line -> if_statement
+Rule 6     statement -> ID EQUALS expression
+Rule 7     statement -> declaration EQUALS expression
+Rule 8     statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+Rule 9     function_declaration -> type ID LPAREN args RPAREN LBRACKET body RBRACKET
+Rule 10    declaration -> type ID
+Rule 11    body -> line body
+Rule 12    body -> empty
+Rule 13    if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+Rule 14    if_statement -> IF LPAREN expression RPAREN line else_statement
+Rule 15    else_statement -> ELSE LBRACKET body RBRACKET
+Rule 16    else_statement -> ELSE line
+Rule 17    else_statement -> empty
+Rule 18    loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+Rule 19    loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+Rule 20    args -> declaration COMMA args
+Rule 21    args -> declaration
+Rule 22    args -> empty
+Rule 23    statement -> RETURN ID
+Rule 24    statement -> RETURN NUMBER
+Rule 25    expression -> expression EQUALS expression
+Rule 26    expression -> expression PLUS expression
+Rule 27    expression -> expression MINUS expression
+Rule 28    expression -> expression TIMES expression
+Rule 29    expression -> expression DIVIDE expression
+Rule 30    expression -> MINUS expression
+Rule 31    expression -> LPAREN expression RPAREN
+Rule 32    expression -> NUMBER
+Rule 33    type -> INT
+Rule 34    type -> FLOAT
+Rule 35    type -> DOUBLE
+Rule 36    type -> CHAR
+Rule 37    empty -> <empty>
 
 Terminals, with rules where they appear
 
-CHAR                 : 24
-COMMA                : 9
-DIVIDE               : 17
-DOUBLE               : 23
-ELSE                 : 
-EQUALS               : 2 3
-FLOAT                : 22
-ID                   : 2 4 5 6 12
-IF                   : 
-INT                  : 21
-LBRACKET             : 4 5
-LPAREN               : 4 5 19
-MINUS                : 15 18
-NAME                 : 
-NUMBER               : 13 20
-PLUS                 : 14
-RBRACKET             : 4 5
-RETURN               : 12 13
-RPAREN               : 4 5 19
-SEMICOLON            : 1
-TIMES                : 16
-VOID                 : 4
-WHILE                : 
+CHAR                 : 36
+COMMA                : 20
+DIVIDE               : 29
+DOUBLE               : 35
+ELSE                 : 15 16
+EQUALS               : 6 7 25
+FLOAT                : 34
+FOR                  : 19
+ID                   : 6 8 9 10 23
+IF                   : 13 14
+INT                  : 33
+LBRACKET             : 8 9 13 15 18 19
+LPAREN               : 8 9 13 14 18 19 31
+MINUS                : 27 30
+NUMBER               : 24 32
+PLUS                 : 26
+RBRACKET             : 8 9 13 15 18 19
+RETURN               : 23 24
+RPAREN               : 8 9 13 14 18 19 31
+SEMICOLON            : 2 3 19 19
+TIMES                : 28
+VOID                 : 8
+WHILE                : 18
 error                : 
 
 Nonterminals, with rules where they appear
 
-args                 : 4 5 9
-body                 : 4 5 7
-declaration          : 3 9 10
-empty                : 8 11
-expression           : 2 3 14 14 15 15 16 16 17 17 18 19
-line                 : 7 0
-statement            : 1
-type                 : 5 6
+args                 : 8 9 20
+body                 : 8 9 11 13 15 18 19
+declaration          : 7 20 21
+else_statement       : 13 14
+empty                : 12 17 22
+expression           : 3 6 7 13 14 18 19 25 25 26 26 27 27 28 28 29 29 30 31
+function_declaration : 1
+if_statement         : 5
+line                 : 11 14 16
+loop_statement       : 4
+program              : 0
+statement            : 2 19 19
+type                 : 9 10
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . line
-    (1) line -> . statement SEMICOLON
-    (2) statement -> . ID EQUALS expression
-    (3) statement -> . declaration EQUALS expression
-    (4) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (5) statement -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (12) statement -> . RETURN ID
-    (13) statement -> . RETURN NUMBER
-    (6) declaration -> . type ID
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (0) S' -> . program
+    (1) program -> . function_declaration
+    (9) function_declaration -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
 
-    ID              shift and go to state 3
-    VOID            shift and go to state 5
-    RETURN          shift and go to state 7
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
 
-    line                           shift and go to state 1
-    statement                      shift and go to state 2
-    declaration                    shift and go to state 4
-    type                           shift and go to state 6
+    program                        shift and go to state 1
+    function_declaration           shift and go to state 2
+    type                           shift and go to state 3
 
 state 1
 
-    (0) S' -> line .
+    (0) S' -> program .
 
 
 
 state 2
 
-    (1) line -> statement . SEMICOLON
+    (1) program -> function_declaration .
 
-    SEMICOLON       shift and go to state 12
+    $end            reduce using rule 1 (program -> function_declaration .)
 
 
 state 3
 
-    (2) statement -> ID . EQUALS expression
+    (9) function_declaration -> type . ID LPAREN args RPAREN LBRACKET body RBRACKET
 
-    EQUALS          shift and go to state 13
+    ID              shift and go to state 8
 
 
 state 4
 
-    (3) statement -> declaration . EQUALS expression
+    (33) type -> INT .
 
-    EQUALS          shift and go to state 14
+    ID              reduce using rule 33 (type -> INT .)
 
 
 state 5
 
-    (4) statement -> VOID . ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (34) type -> FLOAT .
 
-    ID              shift and go to state 15
+    ID              reduce using rule 34 (type -> FLOAT .)
 
 
 state 6
 
-    (5) statement -> type . ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (6) declaration -> type . ID
+    (35) type -> DOUBLE .
 
-    ID              shift and go to state 16
+    ID              reduce using rule 35 (type -> DOUBLE .)
 
 
 state 7
 
-    (12) statement -> RETURN . ID
-    (13) statement -> RETURN . NUMBER
+    (36) type -> CHAR .
 
-    ID              shift and go to state 17
-    NUMBER          shift and go to state 18
+    ID              reduce using rule 36 (type -> CHAR .)
 
 
 state 8
 
-    (21) type -> INT .
+    (9) function_declaration -> type ID . LPAREN args RPAREN LBRACKET body RBRACKET
 
-    ID              reduce using rule 21 (type -> INT .)
+    LPAREN          shift and go to state 9
 
 
 state 9
 
-    (22) type -> FLOAT .
+    (9) function_declaration -> type ID LPAREN . args RPAREN LBRACKET body RBRACKET
+    (20) args -> . declaration COMMA args
+    (21) args -> . declaration
+    (22) args -> . empty
+    (10) declaration -> . type ID
+    (37) empty -> .
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
 
-    ID              reduce using rule 22 (type -> FLOAT .)
+    RPAREN          reduce using rule 37 (empty -> .)
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
 
+    type                           shift and go to state 10
+    args                           shift and go to state 11
+    declaration                    shift and go to state 12
+    empty                          shift and go to state 13
 
 state 10
 
-    (23) type -> DOUBLE .
+    (10) declaration -> type . ID
 
-    ID              reduce using rule 23 (type -> DOUBLE .)
+    ID              shift and go to state 14
 
 
 state 11
 
-    (24) type -> CHAR .
+    (9) function_declaration -> type ID LPAREN args . RPAREN LBRACKET body RBRACKET
 
-    ID              reduce using rule 24 (type -> CHAR .)
+    RPAREN          shift and go to state 15
 
 
 state 12
 
-    (1) line -> statement SEMICOLON .
+    (20) args -> declaration . COMMA args
+    (21) args -> declaration .
 
-    $end            reduce using rule 1 (line -> statement SEMICOLON .)
-    ID              reduce using rule 1 (line -> statement SEMICOLON .)
-    VOID            reduce using rule 1 (line -> statement SEMICOLON .)
-    RETURN          reduce using rule 1 (line -> statement SEMICOLON .)
-    INT             reduce using rule 1 (line -> statement SEMICOLON .)
-    FLOAT           reduce using rule 1 (line -> statement SEMICOLON .)
-    DOUBLE          reduce using rule 1 (line -> statement SEMICOLON .)
-    CHAR            reduce using rule 1 (line -> statement SEMICOLON .)
-    RBRACKET        reduce using rule 1 (line -> statement SEMICOLON .)
+    COMMA           shift and go to state 16
+    RPAREN          reduce using rule 21 (args -> declaration .)
 
 
 state 13
 
-    (2) statement -> ID EQUALS . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (22) args -> empty .
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    RPAREN          reduce using rule 22 (args -> empty .)
 
-    expression                     shift and go to state 19
 
 state 14
 
-    (3) statement -> declaration EQUALS . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (10) declaration -> type ID .
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    COMMA           reduce using rule 10 (declaration -> type ID .)
+    RPAREN          reduce using rule 10 (declaration -> type ID .)
+    EQUALS          reduce using rule 10 (declaration -> type ID .)
 
-    expression                     shift and go to state 23
 
 state 15
 
-    (4) statement -> VOID ID . LPAREN args RPAREN LBRACKET body RBRACKET
+    (9) function_declaration -> type ID LPAREN args RPAREN . LBRACKET body RBRACKET
 
-    LPAREN          shift and go to state 24
+    LBRACKET        shift and go to state 17
 
 
 state 16
 
-    (5) statement -> type ID . LPAREN args RPAREN LBRACKET body RBRACKET
-    (6) declaration -> type ID .
+    (20) args -> declaration COMMA . args
+    (20) args -> . declaration COMMA args
+    (21) args -> . declaration
+    (22) args -> . empty
+    (10) declaration -> . type ID
+    (37) empty -> .
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
 
-    LPAREN          shift and go to state 25
-    EQUALS          reduce using rule 6 (declaration -> type ID .)
+    RPAREN          reduce using rule 37 (empty -> .)
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
 
+    declaration                    shift and go to state 12
+    args                           shift and go to state 18
+    empty                          shift and go to state 13
+    type                           shift and go to state 10
 
 state 17
 
-    (12) statement -> RETURN ID .
+    (9) function_declaration -> type ID LPAREN args RPAREN LBRACKET . body RBRACKET
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
 
-    SEMICOLON       reduce using rule 12 (statement -> RETURN ID .)
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
 
+    type                           shift and go to state 10
+    body                           shift and go to state 21
+    line                           shift and go to state 22
+    empty                          shift and go to state 23
+    statement                      shift and go to state 24
+    expression                     shift and go to state 25
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
 
 state 18
 
-    (13) statement -> RETURN NUMBER .
+    (20) args -> declaration COMMA args .
 
-    SEMICOLON       reduce using rule 13 (statement -> RETURN NUMBER .)
+    RPAREN          reduce using rule 20 (args -> declaration COMMA args .)
 
 
 state 19
 
-    (2) statement -> ID EQUALS expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (6) statement -> ID . EQUALS expression
 
-    SEMICOLON       reduce using rule 2 (statement -> ID EQUALS expression .)
-    PLUS            shift and go to state 26
-    MINUS           shift and go to state 27
-    TIMES           shift and go to state 28
-    DIVIDE          shift and go to state 29
+    EQUALS          shift and go to state 36
 
 
 state 20
 
-    (18) expression -> MINUS . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (31) expression -> LPAREN . expression RPAREN
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
-    expression                     shift and go to state 30
+    expression                     shift and go to state 37
 
 state 21
 
-    (19) expression -> LPAREN . expression RPAREN
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (9) function_declaration -> type ID LPAREN args RPAREN LBRACKET body . RBRACKET
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    RBRACKET        shift and go to state 38
 
-    expression                     shift and go to state 31
 
 state 22
 
-    (20) expression -> NUMBER .
+    (11) body -> line . body
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
 
-    PLUS            reduce using rule 20 (expression -> NUMBER .)
-    MINUS           reduce using rule 20 (expression -> NUMBER .)
-    TIMES           reduce using rule 20 (expression -> NUMBER .)
-    DIVIDE          reduce using rule 20 (expression -> NUMBER .)
-    SEMICOLON       reduce using rule 20 (expression -> NUMBER .)
-    RPAREN          reduce using rule 20 (expression -> NUMBER .)
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
 
+    line                           shift and go to state 22
+    body                           shift and go to state 39
+    empty                          shift and go to state 23
+    statement                      shift and go to state 24
+    expression                     shift and go to state 25
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
 
 state 23
 
-    (3) statement -> declaration EQUALS expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (12) body -> empty .
 
-    SEMICOLON       reduce using rule 3 (statement -> declaration EQUALS expression .)
-    PLUS            shift and go to state 26
-    MINUS           shift and go to state 27
-    TIMES           shift and go to state 28
-    DIVIDE          shift and go to state 29
+    RBRACKET        reduce using rule 12 (body -> empty .)
 
 
 state 24
 
-    (4) statement -> VOID ID LPAREN . args RPAREN LBRACKET body RBRACKET
-    (9) args -> . declaration COMMA args
-    (10) args -> . declaration
-    (11) args -> . empty
-    (6) declaration -> . type ID
-    (25) empty -> .
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (2) line -> statement . SEMICOLON
 
-    RPAREN          reduce using rule 25 (empty -> .)
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    SEMICOLON       shift and go to state 40
 
-    args                           shift and go to state 32
-    declaration                    shift and go to state 33
-    empty                          shift and go to state 34
-    type                           shift and go to state 35
 
 state 25
 
-    (5) statement -> type ID LPAREN . args RPAREN LBRACKET body RBRACKET
-    (9) args -> . declaration COMMA args
-    (10) args -> . declaration
-    (11) args -> . empty
-    (6) declaration -> . type ID
-    (25) empty -> .
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (3) line -> expression . SEMICOLON
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
 
-    RPAREN          reduce using rule 25 (empty -> .)
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    SEMICOLON       shift and go to state 41
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
 
-    type                           shift and go to state 35
-    args                           shift and go to state 36
-    declaration                    shift and go to state 33
-    empty                          shift and go to state 34
 
 state 26
 
-    (14) expression -> expression PLUS . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (4) line -> loop_statement .
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    ID              reduce using rule 4 (line -> loop_statement .)
+    VOID            reduce using rule 4 (line -> loop_statement .)
+    RETURN          reduce using rule 4 (line -> loop_statement .)
+    MINUS           reduce using rule 4 (line -> loop_statement .)
+    LPAREN          reduce using rule 4 (line -> loop_statement .)
+    NUMBER          reduce using rule 4 (line -> loop_statement .)
+    WHILE           reduce using rule 4 (line -> loop_statement .)
+    FOR             reduce using rule 4 (line -> loop_statement .)
+    IF              reduce using rule 4 (line -> loop_statement .)
+    INT             reduce using rule 4 (line -> loop_statement .)
+    FLOAT           reduce using rule 4 (line -> loop_statement .)
+    DOUBLE          reduce using rule 4 (line -> loop_statement .)
+    CHAR            reduce using rule 4 (line -> loop_statement .)
+    RBRACKET        reduce using rule 4 (line -> loop_statement .)
+    ELSE            reduce using rule 4 (line -> loop_statement .)
 
-    expression                     shift and go to state 37
 
 state 27
 
-    (15) expression -> expression MINUS . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (5) line -> if_statement .
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    ID              reduce using rule 5 (line -> if_statement .)
+    VOID            reduce using rule 5 (line -> if_statement .)
+    RETURN          reduce using rule 5 (line -> if_statement .)
+    MINUS           reduce using rule 5 (line -> if_statement .)
+    LPAREN          reduce using rule 5 (line -> if_statement .)
+    NUMBER          reduce using rule 5 (line -> if_statement .)
+    WHILE           reduce using rule 5 (line -> if_statement .)
+    FOR             reduce using rule 5 (line -> if_statement .)
+    IF              reduce using rule 5 (line -> if_statement .)
+    INT             reduce using rule 5 (line -> if_statement .)
+    FLOAT           reduce using rule 5 (line -> if_statement .)
+    DOUBLE          reduce using rule 5 (line -> if_statement .)
+    CHAR            reduce using rule 5 (line -> if_statement .)
+    RBRACKET        reduce using rule 5 (line -> if_statement .)
+    ELSE            reduce using rule 5 (line -> if_statement .)
 
-    expression                     shift and go to state 38
 
 state 28
 
-    (16) expression -> expression TIMES . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (7) statement -> declaration . EQUALS expression
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    EQUALS          shift and go to state 47
 
-    expression                     shift and go to state 39
 
 state 29
 
-    (17) expression -> expression DIVIDE . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . MINUS expression
-    (19) expression -> . LPAREN expression RPAREN
-    (20) expression -> . NUMBER
+    (8) statement -> VOID . ID LPAREN args RPAREN LBRACKET body RBRACKET
 
-    MINUS           shift and go to state 20
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
+    ID              shift and go to state 48
 
-    expression                     shift and go to state 40
 
 state 30
 
-    (18) expression -> MINUS expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (23) statement -> RETURN . ID
+    (24) statement -> RETURN . NUMBER
 
-    PLUS            reduce using rule 18 (expression -> MINUS expression .)
-    MINUS           reduce using rule 18 (expression -> MINUS expression .)
-    TIMES           reduce using rule 18 (expression -> MINUS expression .)
-    DIVIDE          reduce using rule 18 (expression -> MINUS expression .)
-    SEMICOLON       reduce using rule 18 (expression -> MINUS expression .)
-    RPAREN          reduce using rule 18 (expression -> MINUS expression .)
-
-  ! PLUS            [ shift and go to state 26 ]
-  ! MINUS           [ shift and go to state 27 ]
-  ! TIMES           [ shift and go to state 28 ]
-  ! DIVIDE          [ shift and go to state 29 ]
+    ID              shift and go to state 49
+    NUMBER          shift and go to state 50
 
 
 state 31
 
-    (19) expression -> LPAREN expression . RPAREN
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (32) expression -> NUMBER .
 
-    RPAREN          shift and go to state 41
-    PLUS            shift and go to state 26
-    MINUS           shift and go to state 27
-    TIMES           shift and go to state 28
-    DIVIDE          shift and go to state 29
+    SEMICOLON       reduce using rule 32 (expression -> NUMBER .)
+    EQUALS          reduce using rule 32 (expression -> NUMBER .)
+    PLUS            reduce using rule 32 (expression -> NUMBER .)
+    MINUS           reduce using rule 32 (expression -> NUMBER .)
+    TIMES           reduce using rule 32 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 32 (expression -> NUMBER .)
+    RPAREN          reduce using rule 32 (expression -> NUMBER .)
 
 
 state 32
 
-    (4) statement -> VOID ID LPAREN args . RPAREN LBRACKET body RBRACKET
+    (30) expression -> MINUS . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RPAREN          shift and go to state 42
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 51
 
 state 33
 
-    (9) args -> declaration . COMMA args
-    (10) args -> declaration .
+    (18) loop_statement -> WHILE . LPAREN expression RPAREN LBRACKET body RBRACKET
 
-    COMMA           shift and go to state 43
-    RPAREN          reduce using rule 10 (args -> declaration .)
+    LPAREN          shift and go to state 52
 
 
 state 34
 
-    (11) args -> empty .
+    (19) loop_statement -> FOR . LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
 
-    RPAREN          reduce using rule 11 (args -> empty .)
+    LPAREN          shift and go to state 53
 
 
 state 35
 
-    (6) declaration -> type . ID
+    (13) if_statement -> IF . LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> IF . LPAREN expression RPAREN line else_statement
 
-    ID              shift and go to state 44
+    LPAREN          shift and go to state 54
 
 
 state 36
 
-    (5) statement -> type ID LPAREN args . RPAREN LBRACKET body RBRACKET
+    (6) statement -> ID EQUALS . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RPAREN          shift and go to state 45
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 55
 
 state 37
 
-    (14) expression -> expression PLUS expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (31) expression -> LPAREN expression . RPAREN
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
 
-    PLUS            reduce using rule 14 (expression -> expression PLUS expression .)
-    MINUS           reduce using rule 14 (expression -> expression PLUS expression .)
-    SEMICOLON       reduce using rule 14 (expression -> expression PLUS expression .)
-    RPAREN          reduce using rule 14 (expression -> expression PLUS expression .)
-    TIMES           shift and go to state 28
-    DIVIDE          shift and go to state 29
-
-  ! TIMES           [ reduce using rule 14 (expression -> expression PLUS expression .) ]
-  ! DIVIDE          [ reduce using rule 14 (expression -> expression PLUS expression .) ]
-  ! PLUS            [ shift and go to state 26 ]
-  ! MINUS           [ shift and go to state 27 ]
+    RPAREN          shift and go to state 56
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
 
 
 state 38
 
-    (15) expression -> expression MINUS expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (9) function_declaration -> type ID LPAREN args RPAREN LBRACKET body RBRACKET .
 
-    PLUS            reduce using rule 15 (expression -> expression MINUS expression .)
-    MINUS           reduce using rule 15 (expression -> expression MINUS expression .)
-    SEMICOLON       reduce using rule 15 (expression -> expression MINUS expression .)
-    RPAREN          reduce using rule 15 (expression -> expression MINUS expression .)
-    TIMES           shift and go to state 28
-    DIVIDE          shift and go to state 29
-
-  ! TIMES           [ reduce using rule 15 (expression -> expression MINUS expression .) ]
-  ! DIVIDE          [ reduce using rule 15 (expression -> expression MINUS expression .) ]
-  ! PLUS            [ shift and go to state 26 ]
-  ! MINUS           [ shift and go to state 27 ]
+    $end            reduce using rule 9 (function_declaration -> type ID LPAREN args RPAREN LBRACKET body RBRACKET .)
 
 
 state 39
 
-    (16) expression -> expression TIMES expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (11) body -> line body .
 
-    PLUS            reduce using rule 16 (expression -> expression TIMES expression .)
-    MINUS           reduce using rule 16 (expression -> expression TIMES expression .)
-    TIMES           reduce using rule 16 (expression -> expression TIMES expression .)
-    DIVIDE          reduce using rule 16 (expression -> expression TIMES expression .)
-    SEMICOLON       reduce using rule 16 (expression -> expression TIMES expression .)
-    RPAREN          reduce using rule 16 (expression -> expression TIMES expression .)
-
-  ! PLUS            [ shift and go to state 26 ]
-  ! MINUS           [ shift and go to state 27 ]
-  ! TIMES           [ shift and go to state 28 ]
-  ! DIVIDE          [ shift and go to state 29 ]
+    RBRACKET        reduce using rule 11 (body -> line body .)
 
 
 state 40
 
-    (17) expression -> expression DIVIDE expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
+    (2) line -> statement SEMICOLON .
 
-    PLUS            reduce using rule 17 (expression -> expression DIVIDE expression .)
-    MINUS           reduce using rule 17 (expression -> expression DIVIDE expression .)
-    TIMES           reduce using rule 17 (expression -> expression DIVIDE expression .)
-    DIVIDE          reduce using rule 17 (expression -> expression DIVIDE expression .)
-    SEMICOLON       reduce using rule 17 (expression -> expression DIVIDE expression .)
-    RPAREN          reduce using rule 17 (expression -> expression DIVIDE expression .)
-
-  ! PLUS            [ shift and go to state 26 ]
-  ! MINUS           [ shift and go to state 27 ]
-  ! TIMES           [ shift and go to state 28 ]
-  ! DIVIDE          [ shift and go to state 29 ]
+    ID              reduce using rule 2 (line -> statement SEMICOLON .)
+    VOID            reduce using rule 2 (line -> statement SEMICOLON .)
+    RETURN          reduce using rule 2 (line -> statement SEMICOLON .)
+    MINUS           reduce using rule 2 (line -> statement SEMICOLON .)
+    LPAREN          reduce using rule 2 (line -> statement SEMICOLON .)
+    NUMBER          reduce using rule 2 (line -> statement SEMICOLON .)
+    WHILE           reduce using rule 2 (line -> statement SEMICOLON .)
+    FOR             reduce using rule 2 (line -> statement SEMICOLON .)
+    IF              reduce using rule 2 (line -> statement SEMICOLON .)
+    INT             reduce using rule 2 (line -> statement SEMICOLON .)
+    FLOAT           reduce using rule 2 (line -> statement SEMICOLON .)
+    DOUBLE          reduce using rule 2 (line -> statement SEMICOLON .)
+    CHAR            reduce using rule 2 (line -> statement SEMICOLON .)
+    RBRACKET        reduce using rule 2 (line -> statement SEMICOLON .)
+    ELSE            reduce using rule 2 (line -> statement SEMICOLON .)
 
 
 state 41
 
-    (19) expression -> LPAREN expression RPAREN .
+    (3) line -> expression SEMICOLON .
 
-    PLUS            reduce using rule 19 (expression -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 19 (expression -> LPAREN expression RPAREN .)
-    TIMES           reduce using rule 19 (expression -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 19 (expression -> LPAREN expression RPAREN .)
-    SEMICOLON       reduce using rule 19 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 19 (expression -> LPAREN expression RPAREN .)
+    ID              reduce using rule 3 (line -> expression SEMICOLON .)
+    VOID            reduce using rule 3 (line -> expression SEMICOLON .)
+    RETURN          reduce using rule 3 (line -> expression SEMICOLON .)
+    MINUS           reduce using rule 3 (line -> expression SEMICOLON .)
+    LPAREN          reduce using rule 3 (line -> expression SEMICOLON .)
+    NUMBER          reduce using rule 3 (line -> expression SEMICOLON .)
+    WHILE           reduce using rule 3 (line -> expression SEMICOLON .)
+    FOR             reduce using rule 3 (line -> expression SEMICOLON .)
+    IF              reduce using rule 3 (line -> expression SEMICOLON .)
+    INT             reduce using rule 3 (line -> expression SEMICOLON .)
+    FLOAT           reduce using rule 3 (line -> expression SEMICOLON .)
+    DOUBLE          reduce using rule 3 (line -> expression SEMICOLON .)
+    CHAR            reduce using rule 3 (line -> expression SEMICOLON .)
+    RBRACKET        reduce using rule 3 (line -> expression SEMICOLON .)
+    ELSE            reduce using rule 3 (line -> expression SEMICOLON .)
 
 
 state 42
 
-    (4) statement -> VOID ID LPAREN args RPAREN . LBRACKET body RBRACKET
+    (25) expression -> expression EQUALS . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    LBRACKET        shift and go to state 46
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 57
 
 state 43
 
-    (9) args -> declaration COMMA . args
-    (9) args -> . declaration COMMA args
-    (10) args -> . declaration
-    (11) args -> . empty
-    (6) declaration -> . type ID
-    (25) empty -> .
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (26) expression -> expression PLUS . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RPAREN          reduce using rule 25 (empty -> .)
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
-    declaration                    shift and go to state 33
-    args                           shift and go to state 47
-    empty                          shift and go to state 34
-    type                           shift and go to state 35
+    expression                     shift and go to state 58
 
 state 44
 
-    (6) declaration -> type ID .
+    (27) expression -> expression MINUS . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    COMMA           reduce using rule 6 (declaration -> type ID .)
-    RPAREN          reduce using rule 6 (declaration -> type ID .)
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 59
 
 state 45
 
-    (5) statement -> type ID LPAREN args RPAREN . LBRACKET body RBRACKET
+    (28) expression -> expression TIMES . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    LBRACKET        shift and go to state 48
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 60
 
 state 46
 
-    (4) statement -> VOID ID LPAREN args RPAREN LBRACKET . body RBRACKET
-    (7) body -> . line body
-    (8) body -> . empty
-    (1) line -> . statement SEMICOLON
-    (25) empty -> .
-    (2) statement -> . ID EQUALS expression
-    (3) statement -> . declaration EQUALS expression
-    (4) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (5) statement -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (12) statement -> . RETURN ID
-    (13) statement -> . RETURN NUMBER
-    (6) declaration -> . type ID
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (29) expression -> expression DIVIDE . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RBRACKET        reduce using rule 25 (empty -> .)
-    ID              shift and go to state 3
-    VOID            shift and go to state 5
-    RETURN          shift and go to state 7
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
-    body                           shift and go to state 49
-    line                           shift and go to state 50
-    empty                          shift and go to state 51
-    statement                      shift and go to state 2
-    declaration                    shift and go to state 4
-    type                           shift and go to state 6
+    expression                     shift and go to state 61
 
 state 47
 
-    (9) args -> declaration COMMA args .
+    (7) statement -> declaration EQUALS . expression
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RPAREN          reduce using rule 9 (args -> declaration COMMA args .)
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 62
 
 state 48
 
-    (5) statement -> type ID LPAREN args RPAREN LBRACKET . body RBRACKET
-    (7) body -> . line body
-    (8) body -> . empty
-    (1) line -> . statement SEMICOLON
-    (25) empty -> .
-    (2) statement -> . ID EQUALS expression
-    (3) statement -> . declaration EQUALS expression
-    (4) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (5) statement -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (12) statement -> . RETURN ID
-    (13) statement -> . RETURN NUMBER
-    (6) declaration -> . type ID
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (8) statement -> VOID ID . LPAREN args RPAREN LBRACKET body RBRACKET
 
-    RBRACKET        reduce using rule 25 (empty -> .)
-    ID              shift and go to state 3
-    VOID            shift and go to state 5
-    RETURN          shift and go to state 7
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    LPAREN          shift and go to state 63
 
-    type                           shift and go to state 6
-    body                           shift and go to state 52
-    line                           shift and go to state 50
-    empty                          shift and go to state 51
-    statement                      shift and go to state 2
-    declaration                    shift and go to state 4
 
 state 49
 
-    (4) statement -> VOID ID LPAREN args RPAREN LBRACKET body . RBRACKET
+    (23) statement -> RETURN ID .
 
-    RBRACKET        shift and go to state 53
+    SEMICOLON       reduce using rule 23 (statement -> RETURN ID .)
+    RPAREN          reduce using rule 23 (statement -> RETURN ID .)
 
 
 state 50
 
-    (7) body -> line . body
-    (7) body -> . line body
-    (8) body -> . empty
-    (1) line -> . statement SEMICOLON
-    (25) empty -> .
-    (2) statement -> . ID EQUALS expression
-    (3) statement -> . declaration EQUALS expression
-    (4) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (5) statement -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (12) statement -> . RETURN ID
-    (13) statement -> . RETURN NUMBER
-    (6) declaration -> . type ID
-    (21) type -> . INT
-    (22) type -> . FLOAT
-    (23) type -> . DOUBLE
-    (24) type -> . CHAR
+    (24) statement -> RETURN NUMBER .
 
-    RBRACKET        reduce using rule 25 (empty -> .)
-    ID              shift and go to state 3
-    VOID            shift and go to state 5
-    RETURN          shift and go to state 7
-    INT             shift and go to state 8
-    FLOAT           shift and go to state 9
-    DOUBLE          shift and go to state 10
-    CHAR            shift and go to state 11
+    SEMICOLON       reduce using rule 24 (statement -> RETURN NUMBER .)
+    RPAREN          reduce using rule 24 (statement -> RETURN NUMBER .)
 
-    line                           shift and go to state 50
-    body                           shift and go to state 54
-    empty                          shift and go to state 51
-    statement                      shift and go to state 2
-    declaration                    shift and go to state 4
-    type                           shift and go to state 6
 
 state 51
 
-    (8) body -> empty .
+    (30) expression -> MINUS expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
 
-    RBRACKET        reduce using rule 8 (body -> empty .)
+    SEMICOLON       reduce using rule 30 (expression -> MINUS expression .)
+    EQUALS          reduce using rule 30 (expression -> MINUS expression .)
+    PLUS            reduce using rule 30 (expression -> MINUS expression .)
+    MINUS           reduce using rule 30 (expression -> MINUS expression .)
+    TIMES           reduce using rule 30 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 30 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 30 (expression -> MINUS expression .)
+
+  ! EQUALS          [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
 
 
 state 52
 
-    (5) statement -> type ID LPAREN args RPAREN LBRACKET body . RBRACKET
+    (18) loop_statement -> WHILE LPAREN . expression RPAREN LBRACKET body RBRACKET
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RBRACKET        shift and go to state 55
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 64
 
 state 53
 
-    (4) statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .
+    (19) loop_statement -> FOR LPAREN . statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
 
-    SEMICOLON       reduce using rule 4 (statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
 
+    statement                      shift and go to state 65
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
 
 state 54
 
-    (7) body -> line body .
+    (13) if_statement -> IF LPAREN . expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> IF LPAREN . expression RPAREN line else_statement
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
 
-    RBRACKET        reduce using rule 7 (body -> line body .)
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
 
+    expression                     shift and go to state 66
 
 state 55
 
-    (5) statement -> type ID LPAREN args RPAREN LBRACKET body RBRACKET .
+    (6) statement -> ID EQUALS expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
 
-    SEMICOLON       reduce using rule 5 (statement -> type ID LPAREN args RPAREN LBRACKET body RBRACKET .)
+    SEMICOLON       reduce using rule 6 (statement -> ID EQUALS expression .)
+    RPAREN          reduce using rule 6 (statement -> ID EQUALS expression .)
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
 
+
+state 56
+
+    (31) expression -> LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 31 (expression -> LPAREN expression RPAREN .)
+
+
+state 57
+
+    (25) expression -> expression EQUALS expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for EQUALS resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMICOLON       reduce using rule 25 (expression -> expression EQUALS expression .)
+    RPAREN          reduce using rule 25 (expression -> expression EQUALS expression .)
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+  ! EQUALS          [ reduce using rule 25 (expression -> expression EQUALS expression .) ]
+  ! PLUS            [ reduce using rule 25 (expression -> expression EQUALS expression .) ]
+  ! MINUS           [ reduce using rule 25 (expression -> expression EQUALS expression .) ]
+  ! TIMES           [ reduce using rule 25 (expression -> expression EQUALS expression .) ]
+  ! DIVIDE          [ reduce using rule 25 (expression -> expression EQUALS expression .) ]
+
+
+state 58
+
+    (26) expression -> expression PLUS expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    SEMICOLON       reduce using rule 26 (expression -> expression PLUS expression .)
+    EQUALS          reduce using rule 26 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 26 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 26 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 26 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+  ! TIMES           [ reduce using rule 26 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 26 (expression -> expression PLUS expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+
+
+state 59
+
+    (27) expression -> expression MINUS expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    SEMICOLON       reduce using rule 27 (expression -> expression MINUS expression .)
+    EQUALS          reduce using rule 27 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 27 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 27 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 27 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+  ! TIMES           [ reduce using rule 27 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 27 (expression -> expression MINUS expression .) ]
+  ! EQUALS          [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+
+
+state 60
+
+    (28) expression -> expression TIMES expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    SEMICOLON       reduce using rule 28 (expression -> expression TIMES expression .)
+    EQUALS          reduce using rule 28 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 28 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 28 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 28 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 28 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 28 (expression -> expression TIMES expression .)
+
+  ! EQUALS          [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
+
+
+state 61
+
+    (29) expression -> expression DIVIDE expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    SEMICOLON       reduce using rule 29 (expression -> expression DIVIDE expression .)
+    EQUALS          reduce using rule 29 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 29 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 29 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 29 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 29 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 29 (expression -> expression DIVIDE expression .)
+
+  ! EQUALS          [ shift and go to state 42 ]
+  ! PLUS            [ shift and go to state 43 ]
+  ! MINUS           [ shift and go to state 44 ]
+  ! TIMES           [ shift and go to state 45 ]
+  ! DIVIDE          [ shift and go to state 46 ]
+
+
+state 62
+
+    (7) statement -> declaration EQUALS expression .
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    SEMICOLON       reduce using rule 7 (statement -> declaration EQUALS expression .)
+    RPAREN          reduce using rule 7 (statement -> declaration EQUALS expression .)
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+
+state 63
+
+    (8) statement -> VOID ID LPAREN . args RPAREN LBRACKET body RBRACKET
+    (20) args -> . declaration COMMA args
+    (21) args -> . declaration
+    (22) args -> . empty
+    (10) declaration -> . type ID
+    (37) empty -> .
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    RPAREN          reduce using rule 37 (empty -> .)
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    args                           shift and go to state 67
+    declaration                    shift and go to state 12
+    empty                          shift and go to state 13
+    type                           shift and go to state 10
+
+state 64
+
+    (18) loop_statement -> WHILE LPAREN expression . RPAREN LBRACKET body RBRACKET
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    RPAREN          shift and go to state 68
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+
+state 65
+
+    (19) loop_statement -> FOR LPAREN statement . SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+
+    SEMICOLON       shift and go to state 69
+
+
+state 66
+
+    (13) if_statement -> IF LPAREN expression . RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> IF LPAREN expression . RPAREN line else_statement
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    RPAREN          shift and go to state 70
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+
+state 67
+
+    (8) statement -> VOID ID LPAREN args . RPAREN LBRACKET body RBRACKET
+
+    RPAREN          shift and go to state 71
+
+
+state 68
+
+    (18) loop_statement -> WHILE LPAREN expression RPAREN . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 72
+
+
+state 69
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON . expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+
+    expression                     shift and go to state 73
+
+state 70
+
+    (13) if_statement -> IF LPAREN expression RPAREN . LBRACKET body RBRACKET else_statement
+    (14) if_statement -> IF LPAREN expression RPAREN . line else_statement
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    LBRACKET        shift and go to state 74
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    expression                     shift and go to state 25
+    line                           shift and go to state 75
+    statement                      shift and go to state 24
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 71
+
+    (8) statement -> VOID ID LPAREN args RPAREN . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 76
+
+
+state 72
+
+    (18) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET . body RBRACKET
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    expression                     shift and go to state 25
+    body                           shift and go to state 77
+    line                           shift and go to state 22
+    empty                          shift and go to state 23
+    statement                      shift and go to state 24
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 73
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression . SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (25) expression -> expression . EQUALS expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . TIMES expression
+    (29) expression -> expression . DIVIDE expression
+
+    SEMICOLON       shift and go to state 78
+    EQUALS          shift and go to state 42
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
+    TIMES           shift and go to state 45
+    DIVIDE          shift and go to state 46
+
+
+state 74
+
+    (13) if_statement -> IF LPAREN expression RPAREN LBRACKET . body RBRACKET else_statement
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    expression                     shift and go to state 25
+    body                           shift and go to state 79
+    line                           shift and go to state 22
+    empty                          shift and go to state 23
+    statement                      shift and go to state 24
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 75
+
+    (14) if_statement -> IF LPAREN expression RPAREN line . else_statement
+    (15) else_statement -> . ELSE LBRACKET body RBRACKET
+    (16) else_statement -> . ELSE line
+    (17) else_statement -> . empty
+    (37) empty -> .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 81
+    ID              reduce using rule 37 (empty -> .)
+    VOID            reduce using rule 37 (empty -> .)
+    RETURN          reduce using rule 37 (empty -> .)
+    MINUS           reduce using rule 37 (empty -> .)
+    LPAREN          reduce using rule 37 (empty -> .)
+    NUMBER          reduce using rule 37 (empty -> .)
+    WHILE           reduce using rule 37 (empty -> .)
+    FOR             reduce using rule 37 (empty -> .)
+    IF              reduce using rule 37 (empty -> .)
+    INT             reduce using rule 37 (empty -> .)
+    FLOAT           reduce using rule 37 (empty -> .)
+    DOUBLE          reduce using rule 37 (empty -> .)
+    CHAR            reduce using rule 37 (empty -> .)
+    RBRACKET        reduce using rule 37 (empty -> .)
+
+  ! ELSE            [ reduce using rule 37 (empty -> .) ]
+
+    else_statement                 shift and go to state 80
+    empty                          shift and go to state 82
+
+state 76
+
+    (8) statement -> VOID ID LPAREN args RPAREN LBRACKET . body RBRACKET
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    body                           shift and go to state 83
+    line                           shift and go to state 22
+    empty                          shift and go to state 23
+    statement                      shift and go to state 24
+    expression                     shift and go to state 25
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 77
+
+    (18) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body . RBRACKET
+
+    RBRACKET        shift and go to state 84
+
+
+state 78
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON . statement RPAREN LBRACKET body RBRACKET
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    statement                      shift and go to state 85
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 79
+
+    (13) if_statement -> IF LPAREN expression RPAREN LBRACKET body . RBRACKET else_statement
+
+    RBRACKET        shift and go to state 86
+
+
+state 80
+
+    (14) if_statement -> IF LPAREN expression RPAREN line else_statement .
+
+    ID              reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    VOID            reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    RETURN          reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    MINUS           reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    LPAREN          reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    NUMBER          reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    WHILE           reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    FOR             reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    IF              reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    INT             reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    FLOAT           reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    DOUBLE          reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    CHAR            reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    RBRACKET        reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+    ELSE            reduce using rule 14 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
+
+
+state 81
+
+    (15) else_statement -> ELSE . LBRACKET body RBRACKET
+    (16) else_statement -> ELSE . line
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    LBRACKET        shift and go to state 87
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    line                           shift and go to state 88
+    statement                      shift and go to state 24
+    expression                     shift and go to state 25
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 82
+
+    (17) else_statement -> empty .
+
+    ELSE            reduce using rule 17 (else_statement -> empty .)
+    ID              reduce using rule 17 (else_statement -> empty .)
+    VOID            reduce using rule 17 (else_statement -> empty .)
+    RETURN          reduce using rule 17 (else_statement -> empty .)
+    MINUS           reduce using rule 17 (else_statement -> empty .)
+    LPAREN          reduce using rule 17 (else_statement -> empty .)
+    NUMBER          reduce using rule 17 (else_statement -> empty .)
+    WHILE           reduce using rule 17 (else_statement -> empty .)
+    FOR             reduce using rule 17 (else_statement -> empty .)
+    IF              reduce using rule 17 (else_statement -> empty .)
+    INT             reduce using rule 17 (else_statement -> empty .)
+    FLOAT           reduce using rule 17 (else_statement -> empty .)
+    DOUBLE          reduce using rule 17 (else_statement -> empty .)
+    CHAR            reduce using rule 17 (else_statement -> empty .)
+    RBRACKET        reduce using rule 17 (else_statement -> empty .)
+
+
+state 83
+
+    (8) statement -> VOID ID LPAREN args RPAREN LBRACKET body . RBRACKET
+
+    RBRACKET        shift and go to state 89
+
+
+state 84
+
+    (18) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .
+
+    ID              reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    VOID            reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    RETURN          reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    MINUS           reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    LPAREN          reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    NUMBER          reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    WHILE           reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    FOR             reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    IF              reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    INT             reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    FLOAT           reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    DOUBLE          reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    CHAR            reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    RBRACKET        reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+    ELSE            reduce using rule 18 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
+
+
+state 85
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement . RPAREN LBRACKET body RBRACKET
+
+    RPAREN          shift and go to state 90
+
+
+state 86
+
+    (13) if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET . else_statement
+    (15) else_statement -> . ELSE LBRACKET body RBRACKET
+    (16) else_statement -> . ELSE line
+    (17) else_statement -> . empty
+    (37) empty -> .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 81
+    ID              reduce using rule 37 (empty -> .)
+    VOID            reduce using rule 37 (empty -> .)
+    RETURN          reduce using rule 37 (empty -> .)
+    MINUS           reduce using rule 37 (empty -> .)
+    LPAREN          reduce using rule 37 (empty -> .)
+    NUMBER          reduce using rule 37 (empty -> .)
+    WHILE           reduce using rule 37 (empty -> .)
+    FOR             reduce using rule 37 (empty -> .)
+    IF              reduce using rule 37 (empty -> .)
+    INT             reduce using rule 37 (empty -> .)
+    FLOAT           reduce using rule 37 (empty -> .)
+    DOUBLE          reduce using rule 37 (empty -> .)
+    CHAR            reduce using rule 37 (empty -> .)
+    RBRACKET        reduce using rule 37 (empty -> .)
+
+  ! ELSE            [ reduce using rule 37 (empty -> .) ]
+
+    else_statement                 shift and go to state 91
+    empty                          shift and go to state 82
+
+state 87
+
+    (15) else_statement -> ELSE LBRACKET . body RBRACKET
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    body                           shift and go to state 92
+    line                           shift and go to state 22
+    empty                          shift and go to state 23
+    statement                      shift and go to state 24
+    expression                     shift and go to state 25
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 88
+
+    (16) else_statement -> ELSE line .
+
+    ELSE            reduce using rule 16 (else_statement -> ELSE line .)
+    ID              reduce using rule 16 (else_statement -> ELSE line .)
+    VOID            reduce using rule 16 (else_statement -> ELSE line .)
+    RETURN          reduce using rule 16 (else_statement -> ELSE line .)
+    MINUS           reduce using rule 16 (else_statement -> ELSE line .)
+    LPAREN          reduce using rule 16 (else_statement -> ELSE line .)
+    NUMBER          reduce using rule 16 (else_statement -> ELSE line .)
+    WHILE           reduce using rule 16 (else_statement -> ELSE line .)
+    FOR             reduce using rule 16 (else_statement -> ELSE line .)
+    IF              reduce using rule 16 (else_statement -> ELSE line .)
+    INT             reduce using rule 16 (else_statement -> ELSE line .)
+    FLOAT           reduce using rule 16 (else_statement -> ELSE line .)
+    DOUBLE          reduce using rule 16 (else_statement -> ELSE line .)
+    CHAR            reduce using rule 16 (else_statement -> ELSE line .)
+    RBRACKET        reduce using rule 16 (else_statement -> ELSE line .)
+
+
+state 89
+
+    (8) statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .
+
+    SEMICOLON       reduce using rule 8 (statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .)
+    RPAREN          reduce using rule 8 (statement -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .)
+
+
+state 90
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN . LBRACKET body RBRACKET
+
+    LBRACKET        shift and go to state 93
+
+
+state 91
+
+    (13) if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .
+
+    ID              reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    VOID            reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    RETURN          reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    MINUS           reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    LPAREN          reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    NUMBER          reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    WHILE           reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    FOR             reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    IF              reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    INT             reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    FLOAT           reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    DOUBLE          reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    CHAR            reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    RBRACKET        reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+    ELSE            reduce using rule 13 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
+
+
+state 92
+
+    (15) else_statement -> ELSE LBRACKET body . RBRACKET
+
+    RBRACKET        shift and go to state 94
+
+
+state 93
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET . body RBRACKET
+    (11) body -> . line body
+    (12) body -> . empty
+    (2) line -> . statement SEMICOLON
+    (3) line -> . expression SEMICOLON
+    (4) line -> . loop_statement
+    (5) line -> . if_statement
+    (37) empty -> .
+    (6) statement -> . ID EQUALS expression
+    (7) statement -> . declaration EQUALS expression
+    (8) statement -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
+    (23) statement -> . RETURN ID
+    (24) statement -> . RETURN NUMBER
+    (25) expression -> . expression EQUALS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression TIMES expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . MINUS expression
+    (31) expression -> . LPAREN expression RPAREN
+    (32) expression -> . NUMBER
+    (18) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    (13) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+    (14) if_statement -> . IF LPAREN expression RPAREN line else_statement
+    (10) declaration -> . type ID
+    (33) type -> . INT
+    (34) type -> . FLOAT
+    (35) type -> . DOUBLE
+    (36) type -> . CHAR
+
+    RBRACKET        reduce using rule 37 (empty -> .)
+    ID              shift and go to state 19
+    VOID            shift and go to state 29
+    RETURN          shift and go to state 30
+    MINUS           shift and go to state 32
+    LPAREN          shift and go to state 20
+    NUMBER          shift and go to state 31
+    WHILE           shift and go to state 33
+    FOR             shift and go to state 34
+    IF              shift and go to state 35
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    DOUBLE          shift and go to state 6
+    CHAR            shift and go to state 7
+
+    statement                      shift and go to state 24
+    expression                     shift and go to state 25
+    body                           shift and go to state 95
+    line                           shift and go to state 22
+    empty                          shift and go to state 23
+    loop_statement                 shift and go to state 26
+    if_statement                   shift and go to state 27
+    declaration                    shift and go to state 28
+    type                           shift and go to state 10
+
+state 94
+
+    (15) else_statement -> ELSE LBRACKET body RBRACKET .
+
+    ELSE            reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    ID              reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    VOID            reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    RETURN          reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    MINUS           reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    LPAREN          reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    NUMBER          reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    WHILE           reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    FOR             reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    IF              reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    INT             reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    FLOAT           reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    DOUBLE          reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    CHAR            reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+    RBRACKET        reduce using rule 15 (else_statement -> ELSE LBRACKET body RBRACKET .)
+
+
+state 95
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body . RBRACKET
+
+    RBRACKET        shift and go to state 96
+
+
+state 96
+
+    (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .
+
+    ID              reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    VOID            reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    RETURN          reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    MINUS           reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    LPAREN          reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    NUMBER          reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    WHILE           reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    FOR             reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    IF              reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    INT             reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    FLOAT           reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    DOUBLE          reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    CHAR            reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    RBRACKET        reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+    ELSE            reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for EQUALS in state 57 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 57 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 57 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 57 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 57 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 75 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 86 resolved as shift

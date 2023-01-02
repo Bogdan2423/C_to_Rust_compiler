@@ -5,6 +5,7 @@ reserved = {
     'if'     : 'IF',
     'else'   : 'ELSE',
     'while'  : 'WHILE',
+    'for'    : 'FOR' ,
     'void'   : 'VOID',
     'int'    : 'INT',
     'float'  : 'FLOAT',
@@ -14,7 +15,7 @@ reserved = {
  }
 
 tokens = [
-     'NAME' ,'NUMBER', 'ID' ,
+     'NUMBER', 'ID' ,
      'PLUS' ,'MINUS' ,'TIMES' ,'DIVIDE' ,'EQUALS',
      'LPAREN' ,'RPAREN', 'LBRACKET', 'RBRACKET',
      'SEMICOLON', 'COMMA'
@@ -72,7 +73,6 @@ def t_error(t):
 
 lexer = lex.lex()
 
-# Parsing rules
 
 precedence = (
     ('left' ,'PLUS' ,'MINUS'),
@@ -87,21 +87,28 @@ types_dict = {
 
 output_f = open("output.rs", "w")
 
+def p_program(t):
+    "program : function_declaration"
+
 def p_line(t):
-    '''line : statement SEMICOLON'''
+    '''line : statement SEMICOLON
+            | expression SEMICOLON
+            | loop_statement
+            | if_statement'''
     t[0] = t[1] + ";"
 
-def p_statement_assign(t):
+def p_assign(t):
     '''statement : ID EQUALS expression
                 | declaration EQUALS expression'''
     t[0] = t[1] + " = " + str(t[3])
+    print("Assign: ",t[0])
 
 def p_void_function_declaration(t):
     'statement : VOID ID LPAREN args RPAREN LBRACKET body RBRACKET'
     print('Declared function: ', t[3])
 
 def p_function_declaration(t):
-    'statement : type ID LPAREN args RPAREN LBRACKET body RBRACKET'
+    'function_declaration : type ID LPAREN args RPAREN LBRACKET body RBRACKET'
 
     print('Declared function: ', t[1], t[2], t[4], t[7])
 
@@ -138,6 +145,31 @@ def p_body(t):
     elif t[1] is not None:
         t[0] = [t[1]]
 
+    print("Body:", t[0])
+
+def p_if(t):
+    '''if_statement : IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
+                    | IF LPAREN expression RPAREN line else_statement
+    '''
+    print("if")
+
+def p_else(t):
+    '''else_statement : ELSE LBRACKET body RBRACKET
+                        | ELSE line
+                        | empty
+    '''
+    print("else")
+
+def p_while(t):
+    '''loop_statement : WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+    '''
+    print("while loop")
+
+def p_for(t):
+    '''loop_statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+    '''
+    print("for loop")
+
 def p_args(t):
     '''args : declaration COMMA args
             | declaration
@@ -148,11 +180,19 @@ def p_args(t):
     elif t[1] is not None:
         t[0] = [t[1]]
 
+    print("Args:", t[0])
+
 
 def p_return_statement(t):
     '''statement : RETURN ID
                 | RETURN NUMBER'''
     t[0] = "return " + str(t[2])
+
+    print("Return:", t[0])
+
+def p_expression_compare(t):
+    '''expression : expression EQUALS expression
+    '''
 
 def p_expression_binop(t):
     '''expression : expression PLUS expression
@@ -199,12 +239,3 @@ parser.parse(lines)
 f.close()
 
 output_f.close()
-
-'''
-while True:
-    try:
-        s = input('calc > ')
-    except EOFError:
-        break
-    parser.parse(s)
-'''
