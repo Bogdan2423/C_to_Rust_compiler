@@ -182,6 +182,11 @@ def p_args(t):
 
     print("Args:", t[0])
 
+def p_function_args(t):
+    '''function_args : ID COMMA function_args
+                    | ID
+                    | empty
+    '''
 
 def p_return_statement(t):
     '''statement : RETURN ID
@@ -189,6 +194,10 @@ def p_return_statement(t):
     t[0] = "return " + str(t[2])
 
     print("Return:", t[0])
+
+def p_function_call(t):
+    '''statement : ID LPAREN function_args RPAREN
+    '''
 
 def p_expression_compare(t):
     '''expression : expression EQUALS expression
