@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 import ply.lex as lex
+import os
 
 reserved = {
     'if'     : 'IF',
@@ -82,20 +83,26 @@ precedence = (
 
 
 types_dict = {
-    'int' : 'i32'
+    'int' : 'i32',
+    'float' : 'f32',
+    'double' : 'f64',
+    'char' : 'char'
 }
 
 output_f = open("output.rs", "w")
 
 def p_program(t):
-    "program : function_declaration"
+    '''program : function_declaration program
+                | empty'''
 
 def p_line(t):
     '''line : statement SEMICOLON
             | expression SEMICOLON
             | loop_statement
             | if_statement'''
-    t[0] = t[1] + ";"
+    t[0] = t[1]
+    if len(t)==3:
+        t[0]+=";"
 
 def p_assign(t):
     '''statement : ID EQUALS expression
@@ -119,20 +126,28 @@ def p_function_declaration(t):
                 t[7].remove(line)
         output += "fn main("
 
+    else:
+        output += "fn " + t[2]+"("
+
     for i in range(len(t[4])):
         output += t[4][i]
         if i < (len(t[4])-1):
             output += ", "
-    output += "){\n"
+    output += ")"
+
+    if t[2]!="main" and t[1]!="void":
+        output+="->"+t[1]
+
+    output +="{\n"
     for line in t[7]:
         output += "    " + line + "\n"
     output+="}"
 
-    output_f.write(output)
+    output_f.write(output+os.linesep)
 
 def p_declaration(t):
     'declaration : type ID'
-    t[0] = "mut " + t[2] + ": " + types_dict[t[1]]
+    t[0] = "let mut " + t[2] + ": " + t[1]
 
 def p_body(t):
     '''body : line body
@@ -151,14 +166,33 @@ def p_if(t):
     '''if_statement : IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
                     | IF LPAREN expression RPAREN line else_statement
     '''
-    print("if")
+    t[0] = "if " + t[3] + " {\n"
+    if len(t) == 9:
+        for line in t[7]:
+            t[0] += "    " + line + "\n"
+        t[0]+="}"
+
+        t[0] += t[8]
+
+    else:
+        t[0] += "    " + t[5] + "\n"
+        t[0] += "   }"
+        t[0] += t[6]
 
 def p_else(t):
     '''else_statement : ELSE LBRACKET body RBRACKET
                         | ELSE line
                         | empty
     '''
-    print("else")
+    t[0] = ""
+    if len(t) >= 3:
+        t[0] += "else {\n"
+        if len(t) == 3:
+            t[0] += "   "+t[2]
+        elif len(t) == 5:
+            for line in t[3]:
+                t[0] += "    " + line + "\n"
+        t[0]+="}"
 
 def p_while(t):
     '''loop_statement : WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
@@ -176,9 +210,9 @@ def p_args(t):
             | empty'''
 
     if len(t) == 4:
-        t[0] = [t[1]] + t[3]
+        t[0] = [t[1][4:]] + t[3]
     elif t[1] is not None:
-        t[0] = [t[1]]
+        t[0] = [t[1][4:]]
 
     print("Args:", t[0])
 
@@ -187,31 +221,40 @@ def p_function_args(t):
                     | ID
                     | empty
     '''
+    if len(t) == 4:
+        t[0] = [t[1]] + t[3]
+    elif t[1] is not None:
+        t[0] = [t[1]]
 
 def p_return_statement(t):
     '''statement : RETURN ID
-                | RETURN NUMBER'''
+                | RETURN expression'''
     t[0] = "return " + str(t[2])
 
     print("Return:", t[0])
 
 def p_function_call(t):
-    '''statement : ID LPAREN function_args RPAREN
+    '''expression : ID LPAREN function_args RPAREN
     '''
+    t[0] = t[1]+"("
+    for i in range(len(t[3])):
+        t[0] += t[3][i]
+        if i < (len(t[3]) - 1):
+            t[0] += ", "
+    t[0] += ")"
+
 
 def p_expression_compare(t):
-    '''expression : expression EQUALS expression
+    '''expression : expression EQUALS EQUALS expression
     '''
+    t[0] = t[1] + "==" + t[4]
 
 def p_expression_binop(t):
     '''expression : expression PLUS expression
                   | expression MINUS expression
                   | expression TIMES expression
                   | expression DIVIDE expression'''
-    if t[2] == '+'  : t[0] = t[1] + t[3]
-    elif t[2] == '-': t[0] = t[1] - t[3]
-    elif t[2] == '*': t[0] = t[1] * t[3]
-    elif t[2] == '/': t[0] = t[1] / t[3]
+    t[0] = t[1] + t[2] + t[3]
 
 def p_expression_uminus(t):
     'expression : MINUS expression %prec UMINUS'
@@ -223,14 +266,19 @@ def p_expression_group(t):
 
 def p_expression_number(t):
     'expression : NUMBER'
+    t[0] = str(t[1])
+
+def p_expression_id(t):
+    'expression : ID'
     t[0] = t[1]
+
 
 def p_type(t):
     '''type : INT
               | FLOAT
               | DOUBLE
               | CHAR'''
-    t[0] = t[1]
+    t[0] = types_dict[t[1]]
 
 def p_empty(t):
     'empty :'
