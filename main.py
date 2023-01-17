@@ -180,9 +180,10 @@ def p_if(t):
     '''if_statement : IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
                     | IF LPAREN expression RPAREN line else_statement
     '''
-    t[0] = "if " + t[3] + " {\n"
+
+    t[0] = "if " + t[3] + " != 0 {\n"
     if len(t) == 9:
-        for line in t[7]:
+        for line in t[6]:
             t[0] += "    " + line + "\n"
         t[0]+="}"
 
@@ -200,13 +201,14 @@ def p_else(t):
     '''
     t[0] = ""
     if len(t) >= 3:
-        t[0] += "else {\n"
+        t[0] += "   else"
         if len(t) == 3:
             t[0] += "   "+t[2]
         elif len(t) == 5:
+            t[0]+="{\n"
             for line in t[3]:
                 t[0] += "    " + line + "\n"
-        t[0]+="}"
+            t[0]+="\n   }"
 
 def p_while(t):
     '''loop_statement : WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
@@ -277,6 +279,7 @@ def p_function_call(t):
         if i < (len(t[3]) - 1):
             t[0] += ", "
     t[0] += ")"
+
 
 def p_printf(t):
     ''' expression : PRINTF LPAREN STRING COMMA function_args RPAREN
