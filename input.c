@@ -14,10 +14,10 @@ int main(){
     if (1){
     int a = 1;
     }
-    else if (2){
+    else if (2==0){
     int a = 2;
     }
-    else if (0){
+    else if (is_prime(3)){
     int a = 3;}
     else
     int b = 7;

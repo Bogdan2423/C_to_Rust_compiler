@@ -180,8 +180,10 @@ def p_if(t):
     '''if_statement : IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
                     | IF LPAREN expression RPAREN line else_statement
     '''
-
-    t[0] = "if " + t[3] + " != 0 {\n"
+    if "<" not in t[3] and ">" not in t[3] and "==" not in t[3]:
+        t[0] = "if " + t[3] + " != 0 {\n"
+    else:
+        t[0] = "if " + t[3] + " {\n"
     if len(t) == 9:
         for line in t[6]:
             t[0] += "    " + line + "\n"
@@ -280,6 +282,10 @@ def p_function_call(t):
             t[0] += ", "
     t[0] += ")"
 
+def p_bool_expression(t):
+    '''expression : expression compare_operator expression
+    '''
+    t[0] = t[1] + t[2] + t[3]
 
 def p_printf(t):
     ''' expression : PRINTF LPAREN STRING COMMA function_args RPAREN
@@ -314,33 +320,32 @@ def p_increment(t):
     else:
         t[0] = t[1] + "-= 1"
 
-def p_expression_compare(t):
-    '''expression : expression COMPARISON expression
-                    | expression GREATER expression
-                    | expression LESS expression
-                    | expression LESSEQUAL expression
-                    | expression GREATEREQUAL expression
-    '''
-    t[0] = t[1] + t[2] + t[3]
+def p_compare_operator(t):
+    '''compare_operator : COMPARISON
+                    |  GREATER
+                    |  LESS
+                    |  LESSEQUAL
+                    |  GREATEREQUAL'''
+    t[0] = t[1]
 
 def p_expression_binop(t):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
-                  | expression TIMES expression
-                  | expression DIVIDE expression
-                  | expression MODULO expression
+    '''expression : expression math_operator expression
     '''
     t[0] = t[1] + t[2] + t[3]
 
 
 def p_operation_assignment(t):
-    '''statement : expression PLUS EQUALS expression
-                      | expression MINUS EQUALS expression
-                      | expression TIMES EQUALS expression
-                      | expression DIVIDE EQUALS expression
-                      | expression MODULO EQUALS expression
+    '''statement : expression math_operator EQUALS expression
         '''
     t[0] = t[1] + t[2] + t[3] + t[4]
+
+def p_math_operator(t):
+    '''math_operator : PLUS
+                      |  MINUS
+                      |  TIMES
+                      |  DIVIDE
+                      |  MODULO '''
+    t[0] = t[1]
 
 def p_expression_group(t):
     'expression : LPAREN expression RPAREN'
