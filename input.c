@@ -1,13 +1,14 @@
-double add(double a, double b){
-    return a+b;
+int is_prime(float a){
+    if (a/2==0)
+        return 0;
+    for (int i = 3; i<a; i+=2)
+        if (a/i==0)
+            return 0;
+    return 1;
 }
 
-int main(int arg1, int arg2, int arg3){
-    arg1 = 2;
-    int b = 3;
-    if (2==2)
-        float c = add(arg1, b);
-    else
-        float c = 3;
+int main(){
+    float c = 13;
+    printf("%d", is_prime(c));
     return 0;
 }

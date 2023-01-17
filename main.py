@@ -13,11 +13,16 @@ reserved = {
     'double' : 'DOUBLE',
     'char'   : 'CHAR',
     'return' : 'RETURN',
+    'printf' : 'PRINTF',
+    '=='     : 'COMPARISON',
+    '++'     : 'INCREMENT',
+    '--'     : 'DECREMENT',
  }
 
 tokens = [
-     'NUMBER', 'ID' ,
+     'NUMBER', 'ID' , 'STRING',
      'PLUS' ,'MINUS' ,'TIMES' ,'DIVIDE' ,'EQUALS',
+     'GREATER', 'LESS', 'MODULO',
      'LPAREN' ,'RPAREN', 'LBRACKET', 'RBRACKET',
      'SEMICOLON', 'COMMA'
 ] + list(reserved.values())
@@ -30,12 +35,18 @@ t_MINUS     = r'-'
 t_TIMES     = r'\*'
 t_DIVIDE    = r'/'
 t_EQUALS    = r'='
+t_GREATER   = r'>'
+t_LESS      = r'<'
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_LBRACKET  = r'\{'
 t_RBRACKET  = r'\}'
 t_SEMICOLON = r'\;'
 t_COMMA     = r'\,'
+t_COMPARISON = r'=='
+t_INCREMENT = r'\+\+'
+t_DECREMENT = r'--'
+t_MODULO    = r'%'
 t_IF        = r'if'
 t_VOID      = r'void'
 t_INT       = r'int'
@@ -43,12 +54,18 @@ t_FLOAT     = r'float'
 t_DOUBLE    = r'double'
 t_CHAR      = r'char'
 t_RETURN    = r'return'
+t_PRINTF    = r'printf'
 
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')
     return t
+
+def t_STRING(t):
+    r'".*"'
+    return t
+
 
 def t_NUMBER(t):
     r'\d+'
@@ -73,13 +90,6 @@ def t_error(t):
 # Build the lexer
 
 lexer = lex.lex()
-
-
-precedence = (
-    ('left' ,'PLUS' ,'MINUS'),
-    ('left' ,'TIMES' ,'DIVIDE'),
-    ('right' ,'UMINUS'),
-)
 
 
 types_dict = {
@@ -108,16 +118,16 @@ def p_assign(t):
     '''statement : ID EQUALS expression
                 | declaration EQUALS expression'''
     t[0] = t[1] + " = " + str(t[3])
-    print("Assign: ",t[0])
+    #print("Assign: ",t[0])
 
 def p_void_function_declaration(t):
     'statement : VOID ID LPAREN args RPAREN LBRACKET body RBRACKET'
-    print('Declared function: ', t[3])
+    #print('Declared function: ', t[3])
 
 def p_function_declaration(t):
     'function_declaration : type ID LPAREN args RPAREN LBRACKET body RBRACKET'
 
-    print('Declared function: ', t[1], t[2], t[4], t[7])
+    #print('Declared function: ', t[1], t[2], t[4], t[7])
 
     output = ""
     if (t[2]=='main'):
@@ -160,7 +170,7 @@ def p_body(t):
     elif t[1] is not None:
         t[0] = [t[1]]
 
-    print("Body:", t[0])
+    #print("Body:", t[0])
 
 def p_if(t):
     '''if_statement : IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
@@ -196,13 +206,29 @@ def p_else(t):
 
 def p_while(t):
     '''loop_statement : WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
+                        | WHILE LPAREN expression RPAREN line
     '''
-    print("while loop")
+    t[0] = "while " + t[3] + " {\n"
+    if len(t)==8:
+        for line in t[6]:
+            t[0] += "   " + line + "\n"
+    else:
+        t[0] += t[5]
+    t[0] += "   }"
 
 def p_for(t):
     '''loop_statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
+                        | FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     '''
-    print("for loop")
+    t[0] = t[3]
+    t[0] += ";\n    while " + t[5] + " {\n"
+    if len(t) == 11:
+        for line in t[10]:
+            t[0] += "   " + line + "\n"
+    else:
+        t[0] += "   "+t[9] + "\n"
+    t[0] += "   "+t[7]
+    t[0] += ";\n   }"
 
 def p_args(t):
     '''args : declaration COMMA args
@@ -213,25 +239,30 @@ def p_args(t):
         t[0] = [t[1][4:]] + t[3]
     elif t[1] is not None:
         t[0] = [t[1][4:]]
+    else:
+        t[0] = []
 
-    print("Args:", t[0])
+    #print("Args:", t[0])
 
 def p_function_args(t):
-    '''function_args : ID COMMA function_args
-                    | ID
+    '''function_args : expression COMMA function_args
+                    | expression
                     | empty
     '''
+
     if len(t) == 4:
         t[0] = [t[1]] + t[3]
     elif t[1] is not None:
         t[0] = [t[1]]
+    else:
+        t[0] = []
 
 def p_return_statement(t):
     '''statement : RETURN ID
                 | RETURN expression'''
     t[0] = "return " + str(t[2])
 
-    print("Return:", t[0])
+    #print("Return:", t[0])
 
 def p_function_call(t):
     '''expression : ID LPAREN function_args RPAREN
@@ -243,22 +274,64 @@ def p_function_call(t):
             t[0] += ", "
     t[0] += ")"
 
+def p_printf(t):
+    ''' expression : PRINTF LPAREN STRING COMMA function_args RPAREN
+                     | PRINTF LPAREN STRING RPAREN'''
+    string = ""
+    i = 0
+    while i<len(t[3]):
+        if t[3][i]=='%' and i+1<len(t[3])-1:
+            string+='{}'
+            i+=2
+        else:
+            string+=t[3][i]
+            i+=1
+
+    t[0] = "println!("+string
+    if len(t)==7:
+        t[0] += ", "
+        for i in range(len(t[5])):
+            t[0] += t[5][i]
+            if i < (len(t[5]) - 1):
+                t[0] += ", "
+
+    t[0] += ")"
+
+
+def p_increment(t):
+    '''statement : ID INCREMENT
+                | ID DECREMENT
+    '''
+    if t[2] == '++':
+        t[0] = t[1] + "+= 1"
+    else:
+        t[0] = t[1] + "-= 1"
 
 def p_expression_compare(t):
-    '''expression : expression EQUALS EQUALS expression
+    '''expression : expression COMPARISON expression
+                    | expression GREATER expression
+                    | expression LESS expression
     '''
-    t[0] = t[1] + "==" + t[4]
+    t[0] = t[1] + t[2] + t[3]
 
 def p_expression_binop(t):
     '''expression : expression PLUS expression
                   | expression MINUS expression
                   | expression TIMES expression
-                  | expression DIVIDE expression'''
+                  | expression DIVIDE expression
+                  | expression MODULO expression
+    '''
     t[0] = t[1] + t[2] + t[3]
 
-def p_expression_uminus(t):
-    'expression : MINUS expression %prec UMINUS'
-    t[0] = -t[2]
+
+def p_operation_assignment(t):
+    '''statement : expression PLUS EQUALS expression
+                      | expression MINUS EQUALS expression
+                      | expression TIMES EQUALS expression
+                      | expression DIVIDE EQUALS expression
+                      | expression MODULO EQUALS expression
+        '''
+    t[0] = t[1] + t[2] + t[3] + t[4]
 
 def p_expression_group(t):
     'expression : LPAREN expression RPAREN'
@@ -282,7 +355,6 @@ def p_type(t):
 
 def p_empty(t):
     'empty :'
-    pass
 
 def p_error(t):
     print("Syntax error at '%s'" % t)
