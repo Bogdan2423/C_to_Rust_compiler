@@ -17,6 +17,8 @@ reserved = {
     '=='     : 'COMPARISON',
     '++'     : 'INCREMENT',
     '--'     : 'DECREMENT',
+    '<='     : 'LESSEQUAL',
+    '>='     : 'GREATEREQUAL'
  }
 
 tokens = [
@@ -37,6 +39,8 @@ t_DIVIDE    = r'/'
 t_EQUALS    = r'='
 t_GREATER   = r'>'
 t_LESS      = r'<'
+t_GREATEREQUAL = r'>='
+t_LESSEQUAL = r'<='
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_LBRACKET  = r'\{'
@@ -311,6 +315,8 @@ def p_expression_compare(t):
     '''expression : expression COMPARISON expression
                     | expression GREATER expression
                     | expression LESS expression
+                    | expression LESSEQUAL expression
+                    | expression GREATEREQUAL expression
     '''
     t[0] = t[1] + t[2] + t[3]
 
