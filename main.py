@@ -103,6 +103,8 @@ types_dict = {
     'char' : 'char'
 }
 
+var_dict = dict()
+
 output_f = open("output.rs", "w")
 
 def p_program(t):
@@ -118,11 +120,6 @@ def p_line(t):
     if len(t)==3:
         t[0]+=";"
 
-def p_assign(t):
-    '''statement : ID EQUALS expression
-                | declaration EQUALS expression'''
-    t[0] = t[1] + " = " + str(t[3])
-    #print("Assign: ",t[0])
 
 def p_void_function_declaration(t):
     'statement : VOID ID LPAREN args RPAREN LBRACKET body RBRACKET'
@@ -162,6 +159,7 @@ def p_function_declaration(t):
 def p_declaration(t):
     'declaration : type ID'
     t[0] = "let mut " + t[2] + ": " + t[1]
+    var_dict[t[2]] = t[1]
 
 def p_body(t):
     '''body : line body
@@ -203,14 +201,13 @@ def p_else(t):
     '''
     t[0] = ""
     if len(t) >= 3:
-        t[0] += "   else"
+        t[0] += "   else{\n"
         if len(t) == 3:
-            t[0] += "   "+t[2]
+            t[0] += "   " + t[2]
         elif len(t) == 5:
-            t[0]+="{\n"
             for line in t[3]:
                 t[0] += "    " + line + "\n"
-            t[0]+="\n   }"
+        t[0]+="\n   }"
 
 def p_while(t):
     '''loop_statement : WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
@@ -277,7 +274,7 @@ def p_function_call(t):
     '''
     t[0] = t[1]+"("
     for i in range(len(t[3])):
-        t[0] += t[3][i]
+        t[0] += t[3][i]+".into()"
         if i < (len(t[3]) - 1):
             t[0] += ", "
     t[0] += ")"
@@ -310,6 +307,20 @@ def p_printf(t):
 
     t[0] += ")"
 
+def p_assign(t):
+    '''statement : ID EQUALS expression
+                | declaration EQUALS expression'''
+    t[0] = t[1] + " = " + str(t[3])
+    if t[1][0:7]=="let mut":
+        var_name = t[1][8]
+        i = 9
+        while t[1][i]!=":":
+            var_name+=t[1][i]
+            i+=1
+    else:
+        var_name = t[1]
+    var_type = var_dict[var_name]
+    t[0] += " as "+var_type
 
 def p_increment(t):
     '''statement : ID INCREMENT

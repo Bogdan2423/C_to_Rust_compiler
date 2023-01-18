@@ -9,18 +9,10 @@ int is_prime(float a){
 
 int main(){
     float c = 13;
-    printf("%d", is_prime(c));
+    int a = 10;
 
-    if (1){
-    int a = 1;
-    }
-    else if (2==0){
-    int a = 2;
-    }
-    else if (is_prime(3)){
-    int a = 3;}
-    else
-    int b = 7;
+    c = 20;
+    a = 30;
 
     return 0;
 }
