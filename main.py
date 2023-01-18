@@ -11,7 +11,6 @@ reserved = {
     'int'    : 'INT',
     'float'  : 'FLOAT',
     'double' : 'DOUBLE',
-    'char'   : 'CHAR',
     'return' : 'RETURN',
     'printf' : 'PRINTF',
     '=='     : 'COMPARISON',
@@ -56,7 +55,6 @@ t_VOID      = r'void'
 t_INT       = r'int'
 t_FLOAT     = r'float'
 t_DOUBLE    = r'double'
-t_CHAR      = r'char'
 t_RETURN    = r'return'
 t_PRINTF    = r'printf'
 
@@ -72,12 +70,7 @@ def t_STRING(t):
 
 
 def t_NUMBER(t):
-    r'\d+'
-    try:
-        t.value = int(t.value)
-    except ValueError:
-        print("Integer value too large %d", t.value)
-        t.value = 0
+    r'\d+\.?\d*'
     return t
 
 # Ignored characters
@@ -100,7 +93,6 @@ types_dict = {
     'int' : 'i32',
     'float' : 'f32',
     'double' : 'f64',
-    'char' : 'char'
 }
 
 var_dict = dict()
@@ -111,24 +103,10 @@ def p_program(t):
     '''program : function_declaration program
                 | empty'''
 
-def p_line(t):
-    '''line : statement SEMICOLON
-            | expression SEMICOLON
-            | loop_statement
-            | if_statement'''
-    t[0] = t[1]
-    if len(t)==3:
-        t[0]+=";"
-
-
-def p_void_function_declaration(t):
-    'statement : VOID ID LPAREN args RPAREN LBRACKET body RBRACKET'
-    #print('Declared function: ', t[3])
 
 def p_function_declaration(t):
-    'function_declaration : type ID LPAREN args RPAREN LBRACKET body RBRACKET'
-
-    #print('Declared function: ', t[1], t[2], t[4], t[7])
+    '''function_declaration : type ID LPAREN args RPAREN LBRACKET body RBRACKET
+                            | VOID ID LPAREN args RPAREN LBRACKET body RBRACKET'''
 
     output = ""
     if (t[2]=='main'):
@@ -156,10 +134,6 @@ def p_function_declaration(t):
 
     output_f.write(output+os.linesep)
 
-def p_declaration(t):
-    'declaration : type ID'
-    t[0] = "let mut " + t[2] + ": " + t[1]
-    var_dict[t[2]] = t[1]
 
 def p_body(t):
     '''body : line body
@@ -172,7 +146,17 @@ def p_body(t):
     elif t[1] is not None:
         t[0] = [t[1]]
 
-    #print("Body:", t[0])
+
+def p_line(t):
+    '''line : statement SEMICOLON
+            | expression SEMICOLON
+            | loop_statement
+            | if_statement'''
+    t[0] = t[1]
+    if len(t)==3:
+        t[0]+=";"
+
+
 
 def p_if(t):
     '''if_statement : IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
@@ -247,8 +231,6 @@ def p_args(t):
     else:
         t[0] = []
 
-    #print("Args:", t[0])
-
 def p_function_args(t):
     '''function_args : expression COMMA function_args
                     | expression
@@ -264,25 +246,26 @@ def p_function_args(t):
 
 def p_return_statement(t):
     '''statement : RETURN ID
-                | RETURN expression'''
-    t[0] = "return " + str(t[2])
-
-    #print("Return:", t[0])
+                | RETURN expression
+                | RETURN'''
+    if len(t)==3:
+        t[0] = "return " + str(t[2])
+    else:
+        t[0] = "return"
 
 def p_function_call(t):
     '''expression : ID LPAREN function_args RPAREN
     '''
     t[0] = t[1]+"("
     for i in range(len(t[3])):
-        t[0] += t[3][i]+".into()"
+        if t[3][i] in var_dict and (var_dict[t[3][i]]=='f32' or var_dict[t[3][i]]=='f64'):
+            t[0] += t[3][i]+".into()"
+        else:
+            t[0] += t[3][i]
         if i < (len(t[3]) - 1):
             t[0] += ", "
     t[0] += ")"
 
-def p_bool_expression(t):
-    '''expression : expression compare_operator expression
-    '''
-    t[0] = t[1] + t[2] + t[3]
 
 def p_printf(t):
     ''' expression : PRINTF LPAREN STRING COMMA function_args RPAREN
@@ -307,10 +290,15 @@ def p_printf(t):
 
     t[0] += ")"
 
+def p_declaration(t):
+    'declaration : type ID'
+    t[0] = "let mut " + t[2] + ": " + t[1]
+    var_dict[t[2]] = t[1]
+
 def p_assign(t):
     '''statement : ID EQUALS expression
                 | declaration EQUALS expression'''
-    t[0] = t[1] + " = " + str(t[3])
+    t[0] = t[1] + " = (" + str(t[3])
     if t[1][0:7]=="let mut":
         var_name = t[1][8]
         i = 9
@@ -320,35 +308,51 @@ def p_assign(t):
     else:
         var_name = t[1]
     var_type = var_dict[var_name]
-    t[0] += " as "+var_type
+    t[0] += ") as "+var_type
+
+def p_operation_assignment(t):
+    '''statement : expression math_operator EQUALS expression
+        '''
+    t[0] = t[1] + t[2] + t[3]
+    if t[1] in var_dict:
+        t[0] += "("+t[4]+") as "+var_dict[t[1]]
+    else:
+        t[0] += t[4]
 
 def p_increment(t):
     '''statement : ID INCREMENT
                 | ID DECREMENT
     '''
-    if t[2] == '++':
-        t[0] = t[1] + "+= 1"
+    if t[1] in var_dict and var_dict[t[1]]=='i32':
+        if t[2] == '++':
+            t[0] = t[1] + "+= 1"
+        else:
+            t[0] = t[1] + "-= 1"
     else:
-        t[0] = t[1] + "-= 1"
+        if t[2] == '++':
+            t[0] = t[1] + "+= 1.0"
+        else:
+            t[0] = t[1] + "-= 1.0"
 
-def p_compare_operator(t):
-    '''compare_operator : COMPARISON
-                    |  GREATER
-                    |  LESS
-                    |  LESSEQUAL
-                    |  GREATEREQUAL'''
-    t[0] = t[1]
+def p_compare_expression(t):
+    '''expression : expression compare_operator expression
+    '''
+    t[0] = t[1] + t[2]
+    if t[1] in var_dict:
+        t[0] += "("+t[3]+") as "+var_dict[t[1]]
+    else:
+        t[0] += t[3]
+
 
 def p_expression_binop(t):
     '''expression : expression math_operator expression
     '''
-    t[0] = t[1] + t[2] + t[3]
+    t[0] = t[1] + t[2]
+    if t[1] in var_dict:
+        t[0] += t[3]+" as "+var_dict[t[1]]
+    else:
+        t[0] += t[3]
 
-
-def p_operation_assignment(t):
-    '''statement : expression math_operator EQUALS expression
-        '''
-    t[0] = t[1] + t[2] + t[3] + t[4]
 
 def p_math_operator(t):
     '''math_operator : PLUS
@@ -358,9 +362,17 @@ def p_math_operator(t):
                       |  MODULO '''
     t[0] = t[1]
 
+def p_compare_operator(t):
+    '''compare_operator : COMPARISON
+                    |  GREATER
+                    |  LESS
+                    |  LESSEQUAL
+                    |  GREATEREQUAL'''
+    t[0] = t[1]
+
 def p_expression_group(t):
     'expression : LPAREN expression RPAREN'
-    t[0] = t[2]
+    t[0] = "("+t[2]+")"
 
 def p_expression_number(t):
     'expression : NUMBER'
@@ -374,8 +386,7 @@ def p_expression_id(t):
 def p_type(t):
     '''type : INT
               | FLOAT
-              | DOUBLE
-              | CHAR'''
+              | DOUBLE'''
     t[0] = types_dict[t[1]]
 
 def p_empty(t):
