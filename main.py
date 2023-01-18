@@ -1,6 +1,14 @@
 import ply.yacc as yacc
 import ply.lex as lex
-import os
+import sys
+
+if len(sys.argv)==3:
+    input_filename = sys.argv[1]
+    output_filename = sys.argv[2]
+else:
+    input_filename = "input.c"
+    output_filename = "output.rs"
+
 
 reserved = {
     'if'     : 'IF',
@@ -84,8 +92,6 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-# Build the lexer
-
 lexer = lex.lex()
 
 
@@ -97,7 +103,7 @@ types_dict = {
 
 var_dict = dict()
 
-output_f = open("output.rs", "w")
+output_f = open(output_filename, "w")
 
 def p_program(t):
     '''program : function_declaration program
@@ -132,7 +138,7 @@ def p_function_declaration(t):
         output += "    " + line + "\n"
     output+="}"
 
-    output_f.write(output+os.linesep)
+    output_f.write(output+"\n")
 
 
 def p_body(t):
@@ -245,8 +251,7 @@ def p_function_args(t):
         t[0] = []
 
 def p_return_statement(t):
-    '''statement : RETURN ID
-                | RETURN expression
+    '''statement : RETURN expression
                 | RETURN'''
     if len(t)==3:
         t[0] = "return " + str(t[2])
@@ -398,7 +403,7 @@ def p_error(t):
 parser = yacc.yacc()
 
 
-f = open("input.c", "r")
+f = open(input_filename, "r")
 lines = f.read()
 parser.parse(lines)
 f.close()

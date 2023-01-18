@@ -28,70 +28,69 @@ Rule 22    args -> empty
 Rule 23    function_args -> expression COMMA function_args
 Rule 24    function_args -> expression
 Rule 25    function_args -> empty
-Rule 26    statement -> RETURN ID
-Rule 27    statement -> RETURN expression
-Rule 28    statement -> RETURN
-Rule 29    expression -> ID LPAREN function_args RPAREN
-Rule 30    expression -> PRINTF LPAREN STRING COMMA function_args RPAREN
-Rule 31    expression -> PRINTF LPAREN STRING RPAREN
-Rule 32    declaration -> type ID
-Rule 33    statement -> ID EQUALS expression
-Rule 34    statement -> declaration EQUALS expression
-Rule 35    statement -> expression math_operator EQUALS expression
-Rule 36    statement -> ID INCREMENT
-Rule 37    statement -> ID DECREMENT
-Rule 38    expression -> expression compare_operator expression
-Rule 39    expression -> expression math_operator expression
-Rule 40    math_operator -> PLUS
-Rule 41    math_operator -> MINUS
-Rule 42    math_operator -> TIMES
-Rule 43    math_operator -> DIVIDE
-Rule 44    math_operator -> MODULO
-Rule 45    compare_operator -> COMPARISON
-Rule 46    compare_operator -> GREATER
-Rule 47    compare_operator -> LESS
-Rule 48    compare_operator -> LESSEQUAL
-Rule 49    compare_operator -> GREATEREQUAL
-Rule 50    expression -> LPAREN expression RPAREN
-Rule 51    expression -> NUMBER
-Rule 52    expression -> ID
-Rule 53    type -> INT
-Rule 54    type -> FLOAT
-Rule 55    type -> DOUBLE
-Rule 56    empty -> <empty>
+Rule 26    statement -> RETURN expression
+Rule 27    statement -> RETURN
+Rule 28    expression -> ID LPAREN function_args RPAREN
+Rule 29    expression -> PRINTF LPAREN STRING COMMA function_args RPAREN
+Rule 30    expression -> PRINTF LPAREN STRING RPAREN
+Rule 31    declaration -> type ID
+Rule 32    statement -> ID EQUALS expression
+Rule 33    statement -> declaration EQUALS expression
+Rule 34    statement -> expression math_operator EQUALS expression
+Rule 35    statement -> ID INCREMENT
+Rule 36    statement -> ID DECREMENT
+Rule 37    expression -> expression compare_operator expression
+Rule 38    expression -> expression math_operator expression
+Rule 39    math_operator -> PLUS
+Rule 40    math_operator -> MINUS
+Rule 41    math_operator -> TIMES
+Rule 42    math_operator -> DIVIDE
+Rule 43    math_operator -> MODULO
+Rule 44    compare_operator -> COMPARISON
+Rule 45    compare_operator -> GREATER
+Rule 46    compare_operator -> LESS
+Rule 47    compare_operator -> LESSEQUAL
+Rule 48    compare_operator -> GREATEREQUAL
+Rule 49    expression -> LPAREN expression RPAREN
+Rule 50    expression -> NUMBER
+Rule 51    expression -> ID
+Rule 52    type -> INT
+Rule 53    type -> FLOAT
+Rule 54    type -> DOUBLE
+Rule 55    empty -> <empty>
 
 Terminals, with rules where they appear
 
-COMMA                : 20 23 30
-COMPARISON           : 45
-DECREMENT            : 37
-DIVIDE               : 43
-DOUBLE               : 55
+COMMA                : 20 23 29
+COMPARISON           : 44
+DECREMENT            : 36
+DIVIDE               : 42
+DOUBLE               : 54
 ELSE                 : 13 14
-EQUALS               : 33 34 35
-FLOAT                : 54
+EQUALS               : 32 33 34
+FLOAT                : 53
 FOR                  : 18 19
-GREATER              : 46
-GREATEREQUAL         : 49
-ID                   : 3 4 26 29 32 33 36 37 52
+GREATER              : 45
+GREATEREQUAL         : 48
+ID                   : 3 4 28 31 32 35 36 51
 IF                   : 11 12
-INCREMENT            : 36
-INT                  : 53
+INCREMENT            : 35
+INT                  : 52
 LBRACKET             : 3 4 11 13 16 18
-LESS                 : 47
-LESSEQUAL            : 48
-LPAREN               : 3 4 11 12 16 17 18 19 29 30 31 50
-MINUS                : 41
-MODULO               : 44
-NUMBER               : 51
-PLUS                 : 40
-PRINTF               : 30 31
+LESS                 : 46
+LESSEQUAL            : 47
+LPAREN               : 3 4 11 12 16 17 18 19 28 29 30 49
+MINUS                : 40
+MODULO               : 43
+NUMBER               : 50
+PLUS                 : 39
+PRINTF               : 29 30
 RBRACKET             : 3 4 11 13 16 18
-RETURN               : 26 27 28
-RPAREN               : 3 4 11 12 16 17 18 19 29 30 31 50
+RETURN               : 26 27
+RPAREN               : 3 4 11 12 16 17 18 19 28 29 30 49
 SEMICOLON            : 7 8 18 18 19 19
-STRING               : 30 31
-TIMES                : 42
+STRING               : 29 30
+TIMES                : 41
 VOID                 : 4
 WHILE                : 16 17
 error                : 
@@ -100,20 +99,20 @@ Nonterminals, with rules where they appear
 
 args                 : 3 4 20
 body                 : 3 4 5 11 13 16 18
-compare_operator     : 38
-declaration          : 20 21 34
+compare_operator     : 37
+declaration          : 20 21 33
 else_statement       : 11 12
 empty                : 2 6 15 22 25
-expression           : 8 11 12 16 17 18 19 23 24 27 33 34 35 35 38 38 39 39 50
-function_args        : 23 29 30
+expression           : 8 11 12 16 17 18 19 23 24 26 32 33 34 34 37 37 38 38 49
+function_args        : 23 28 29
 function_declaration : 1
 if_statement         : 10
 line                 : 5 12 14 17 19
 loop_statement       : 9
-math_operator        : 35 39
+math_operator        : 34 38
 program              : 1 0
 statement            : 7 18 18 19 19
-type                 : 3 32
+type                 : 3 31
 
 Parsing method: LALR
 
@@ -124,13 +123,13 @@ state 0
     (2) program -> . empty
     (3) function_declaration -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
     (4) function_declaration -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (56) empty -> .
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (55) empty -> .
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
     VOID            shift and go to state 5
-    $end            reduce using rule 56 (empty -> .)
+    $end            reduce using rule 55 (empty -> .)
     INT             shift and go to state 6
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
@@ -153,13 +152,13 @@ state 2
     (2) program -> . empty
     (3) function_declaration -> . type ID LPAREN args RPAREN LBRACKET body RBRACKET
     (4) function_declaration -> . VOID ID LPAREN args RPAREN LBRACKET body RBRACKET
-    (56) empty -> .
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (55) empty -> .
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
     VOID            shift and go to state 5
-    $end            reduce using rule 56 (empty -> .)
+    $end            reduce using rule 55 (empty -> .)
     INT             shift and go to state 6
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
@@ -192,23 +191,23 @@ state 5
 
 state 6
 
-    (53) type -> INT .
+    (52) type -> INT .
 
-    ID              reduce using rule 53 (type -> INT .)
+    ID              reduce using rule 52 (type -> INT .)
 
 
 state 7
 
-    (54) type -> FLOAT .
+    (53) type -> FLOAT .
 
-    ID              reduce using rule 54 (type -> FLOAT .)
+    ID              reduce using rule 53 (type -> FLOAT .)
 
 
 state 8
 
-    (55) type -> DOUBLE .
+    (54) type -> DOUBLE .
 
-    ID              reduce using rule 55 (type -> DOUBLE .)
+    ID              reduce using rule 54 (type -> DOUBLE .)
 
 
 state 9
@@ -238,13 +237,13 @@ state 12
     (20) args -> . declaration COMMA args
     (21) args -> . declaration
     (22) args -> . empty
-    (32) declaration -> . type ID
-    (56) empty -> .
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (55) empty -> .
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RPAREN          reduce using rule 56 (empty -> .)
+    RPAREN          reduce using rule 55 (empty -> .)
     INT             shift and go to state 6
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
@@ -260,13 +259,13 @@ state 13
     (20) args -> . declaration COMMA args
     (21) args -> . declaration
     (22) args -> . empty
-    (32) declaration -> . type ID
-    (56) empty -> .
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (55) empty -> .
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RPAREN          reduce using rule 56 (empty -> .)
+    RPAREN          reduce using rule 55 (empty -> .)
     INT             shift and go to state 6
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
@@ -278,7 +277,7 @@ state 13
 
 state 14
 
-    (32) declaration -> type . ID
+    (31) declaration -> type . ID
 
     ID              shift and go to state 19
 
@@ -315,11 +314,11 @@ state 18
 
 state 19
 
-    (32) declaration -> type ID .
+    (31) declaration -> type ID .
 
-    COMMA           reduce using rule 32 (declaration -> type ID .)
-    RPAREN          reduce using rule 32 (declaration -> type ID .)
-    EQUALS          reduce using rule 32 (declaration -> type ID .)
+    COMMA           reduce using rule 31 (declaration -> type ID .)
+    RPAREN          reduce using rule 31 (declaration -> type ID .)
+    EQUALS          reduce using rule 31 (declaration -> type ID .)
 
 
 state 20
@@ -335,13 +334,13 @@ state 21
     (20) args -> . declaration COMMA args
     (21) args -> . declaration
     (22) args -> . empty
-    (32) declaration -> . type ID
-    (56) empty -> .
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (55) empty -> .
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RPAREN          reduce using rule 56 (empty -> .)
+    RPAREN          reduce using rule 55 (empty -> .)
     INT             shift and go to state 6
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
@@ -367,35 +366,34 @@ state 23
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -434,35 +432,34 @@ state 25
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -487,40 +484,40 @@ state 25
 
 state 26
 
-    (33) statement -> ID . EQUALS expression
-    (36) statement -> ID . INCREMENT
-    (37) statement -> ID . DECREMENT
-    (29) expression -> ID . LPAREN function_args RPAREN
-    (52) expression -> ID .
+    (32) statement -> ID . EQUALS expression
+    (35) statement -> ID . INCREMENT
+    (36) statement -> ID . DECREMENT
+    (28) expression -> ID . LPAREN function_args RPAREN
+    (51) expression -> ID .
 
     EQUALS          shift and go to state 43
     INCREMENT       shift and go to state 44
     DECREMENT       shift and go to state 45
     LPAREN          shift and go to state 46
-    SEMICOLON       reduce using rule 52 (expression -> ID .)
-    PLUS            reduce using rule 52 (expression -> ID .)
-    MINUS           reduce using rule 52 (expression -> ID .)
-    TIMES           reduce using rule 52 (expression -> ID .)
-    DIVIDE          reduce using rule 52 (expression -> ID .)
-    MODULO          reduce using rule 52 (expression -> ID .)
-    COMPARISON      reduce using rule 52 (expression -> ID .)
-    GREATER         reduce using rule 52 (expression -> ID .)
-    LESS            reduce using rule 52 (expression -> ID .)
-    LESSEQUAL       reduce using rule 52 (expression -> ID .)
-    GREATEREQUAL    reduce using rule 52 (expression -> ID .)
+    SEMICOLON       reduce using rule 51 (expression -> ID .)
+    PLUS            reduce using rule 51 (expression -> ID .)
+    MINUS           reduce using rule 51 (expression -> ID .)
+    TIMES           reduce using rule 51 (expression -> ID .)
+    DIVIDE          reduce using rule 51 (expression -> ID .)
+    MODULO          reduce using rule 51 (expression -> ID .)
+    COMPARISON      reduce using rule 51 (expression -> ID .)
+    GREATER         reduce using rule 51 (expression -> ID .)
+    LESS            reduce using rule 51 (expression -> ID .)
+    LESSEQUAL       reduce using rule 51 (expression -> ID .)
+    GREATEREQUAL    reduce using rule 51 (expression -> ID .)
 
 
 state 27
 
-    (50) expression -> LPAREN . expression RPAREN
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (49) expression -> LPAREN . expression RPAREN
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
@@ -545,35 +542,34 @@ state 29
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -613,19 +609,19 @@ state 31
 state 32
 
     (8) line -> expression . SEMICOLON
-    (35) statement -> expression . math_operator EQUALS expression
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
+    (34) statement -> expression . math_operator EQUALS expression
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
 
     SEMICOLON       shift and go to state 52
     PLUS            shift and go to state 55
@@ -682,59 +678,58 @@ state 34
 
 state 35
 
-    (26) statement -> RETURN . ID
-    (27) statement -> RETURN . expression
-    (28) statement -> RETURN .
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (26) statement -> RETURN . expression
+    (27) statement -> RETURN .
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
-    ID              shift and go to state 65
-    SEMICOLON       reduce using rule 28 (statement -> RETURN .)
-    RPAREN          reduce using rule 28 (statement -> RETURN .)
+    SEMICOLON       reduce using rule 27 (statement -> RETURN .)
+    RPAREN          reduce using rule 27 (statement -> RETURN .)
+    ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 66
+    expression                     shift and go to state 65
 
 state 36
 
-    (34) statement -> declaration . EQUALS expression
+    (33) statement -> declaration . EQUALS expression
 
-    EQUALS          shift and go to state 67
+    EQUALS          shift and go to state 66
 
 
 state 37
 
-    (30) expression -> PRINTF . LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> PRINTF . LPAREN STRING RPAREN
+    (29) expression -> PRINTF . LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> PRINTF . LPAREN STRING RPAREN
 
-    LPAREN          shift and go to state 68
+    LPAREN          shift and go to state 67
 
 
 state 38
 
-    (51) expression -> NUMBER .
+    (50) expression -> NUMBER .
 
-    SEMICOLON       reduce using rule 51 (expression -> NUMBER .)
-    PLUS            reduce using rule 51 (expression -> NUMBER .)
-    MINUS           reduce using rule 51 (expression -> NUMBER .)
-    TIMES           reduce using rule 51 (expression -> NUMBER .)
-    DIVIDE          reduce using rule 51 (expression -> NUMBER .)
-    MODULO          reduce using rule 51 (expression -> NUMBER .)
-    COMPARISON      reduce using rule 51 (expression -> NUMBER .)
-    GREATER         reduce using rule 51 (expression -> NUMBER .)
-    LESS            reduce using rule 51 (expression -> NUMBER .)
-    LESSEQUAL       reduce using rule 51 (expression -> NUMBER .)
-    GREATEREQUAL    reduce using rule 51 (expression -> NUMBER .)
-    RPAREN          reduce using rule 51 (expression -> NUMBER .)
-    COMMA           reduce using rule 51 (expression -> NUMBER .)
+    SEMICOLON       reduce using rule 50 (expression -> NUMBER .)
+    PLUS            reduce using rule 50 (expression -> NUMBER .)
+    MINUS           reduce using rule 50 (expression -> NUMBER .)
+    TIMES           reduce using rule 50 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 50 (expression -> NUMBER .)
+    MODULO          reduce using rule 50 (expression -> NUMBER .)
+    COMPARISON      reduce using rule 50 (expression -> NUMBER .)
+    GREATER         reduce using rule 50 (expression -> NUMBER .)
+    LESS            reduce using rule 50 (expression -> NUMBER .)
+    LESSEQUAL       reduce using rule 50 (expression -> NUMBER .)
+    GREATEREQUAL    reduce using rule 50 (expression -> NUMBER .)
+    RPAREN          reduce using rule 50 (expression -> NUMBER .)
+    COMMA           reduce using rule 50 (expression -> NUMBER .)
 
 
 state 39
@@ -742,7 +737,7 @@ state 39
     (16) loop_statement -> WHILE . LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> WHILE . LPAREN expression RPAREN line
 
-    LPAREN          shift and go to state 69
+    LPAREN          shift and go to state 68
 
 
 state 40
@@ -750,7 +745,7 @@ state 40
     (18) loop_statement -> FOR . LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR . LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
 
-    LPAREN          shift and go to state 70
+    LPAREN          shift and go to state 69
 
 
 state 41
@@ -758,94 +753,94 @@ state 41
     (11) if_statement -> IF . LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> IF . LPAREN expression RPAREN line else_statement
 
-    LPAREN          shift and go to state 71
+    LPAREN          shift and go to state 70
 
 
 state 42
 
     (4) function_declaration -> VOID ID LPAREN args RPAREN LBRACKET body . RBRACKET
 
-    RBRACKET        shift and go to state 72
+    RBRACKET        shift and go to state 71
 
 
 state 43
 
-    (33) statement -> ID EQUALS . expression
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (32) statement -> ID EQUALS . expression
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 73
+    expression                     shift and go to state 72
 
 state 44
 
-    (36) statement -> ID INCREMENT .
+    (35) statement -> ID INCREMENT .
 
-    SEMICOLON       reduce using rule 36 (statement -> ID INCREMENT .)
-    RPAREN          reduce using rule 36 (statement -> ID INCREMENT .)
+    SEMICOLON       reduce using rule 35 (statement -> ID INCREMENT .)
+    RPAREN          reduce using rule 35 (statement -> ID INCREMENT .)
 
 
 state 45
 
-    (37) statement -> ID DECREMENT .
+    (36) statement -> ID DECREMENT .
 
-    SEMICOLON       reduce using rule 37 (statement -> ID DECREMENT .)
-    RPAREN          reduce using rule 37 (statement -> ID DECREMENT .)
+    SEMICOLON       reduce using rule 36 (statement -> ID DECREMENT .)
+    RPAREN          reduce using rule 36 (statement -> ID DECREMENT .)
 
 
 state 46
 
-    (29) expression -> ID LPAREN . function_args RPAREN
+    (28) expression -> ID LPAREN . function_args RPAREN
     (23) function_args -> . expression COMMA function_args
     (24) function_args -> . expression
     (25) function_args -> . empty
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
-    (56) empty -> .
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
+    (55) empty -> .
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
-    RPAREN          reduce using rule 56 (empty -> .)
+    RPAREN          reduce using rule 55 (empty -> .)
 
-    function_args                  shift and go to state 74
-    expression                     shift and go to state 75
-    empty                          shift and go to state 76
+    function_args                  shift and go to state 73
+    expression                     shift and go to state 74
+    empty                          shift and go to state 75
 
 state 47
 
-    (50) expression -> LPAREN expression . RPAREN
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (49) expression -> LPAREN expression . RPAREN
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    RPAREN          shift and go to state 77
+    RPAREN          shift and go to state 76
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -858,27 +853,27 @@ state 47
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
 
 state 48
 
-    (29) expression -> ID . LPAREN function_args RPAREN
-    (52) expression -> ID .
+    (28) expression -> ID . LPAREN function_args RPAREN
+    (51) expression -> ID .
 
     LPAREN          shift and go to state 46
-    RPAREN          reduce using rule 52 (expression -> ID .)
-    COMPARISON      reduce using rule 52 (expression -> ID .)
-    GREATER         reduce using rule 52 (expression -> ID .)
-    LESS            reduce using rule 52 (expression -> ID .)
-    LESSEQUAL       reduce using rule 52 (expression -> ID .)
-    GREATEREQUAL    reduce using rule 52 (expression -> ID .)
-    PLUS            reduce using rule 52 (expression -> ID .)
-    MINUS           reduce using rule 52 (expression -> ID .)
-    TIMES           reduce using rule 52 (expression -> ID .)
-    DIVIDE          reduce using rule 52 (expression -> ID .)
-    MODULO          reduce using rule 52 (expression -> ID .)
-    SEMICOLON       reduce using rule 52 (expression -> ID .)
-    COMMA           reduce using rule 52 (expression -> ID .)
+    RPAREN          reduce using rule 51 (expression -> ID .)
+    COMPARISON      reduce using rule 51 (expression -> ID .)
+    GREATER         reduce using rule 51 (expression -> ID .)
+    LESS            reduce using rule 51 (expression -> ID .)
+    LESSEQUAL       reduce using rule 51 (expression -> ID .)
+    GREATEREQUAL    reduce using rule 51 (expression -> ID .)
+    PLUS            reduce using rule 51 (expression -> ID .)
+    MINUS           reduce using rule 51 (expression -> ID .)
+    TIMES           reduce using rule 51 (expression -> ID .)
+    DIVIDE          reduce using rule 51 (expression -> ID .)
+    MODULO          reduce using rule 51 (expression -> ID .)
+    SEMICOLON       reduce using rule 51 (expression -> ID .)
+    COMMA           reduce using rule 51 (expression -> ID .)
 
 
 state 49
@@ -939,193 +934,167 @@ state 52
 
 state 53
 
-    (35) statement -> expression math_operator . EQUALS expression
-    (39) expression -> expression math_operator . expression
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (34) statement -> expression math_operator . EQUALS expression
+    (38) expression -> expression math_operator . expression
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
-    EQUALS          shift and go to state 80
+    EQUALS          shift and go to state 79
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 79
+    expression                     shift and go to state 78
 
 state 54
 
-    (38) expression -> expression compare_operator . expression
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (37) expression -> expression compare_operator . expression
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 81
+    expression                     shift and go to state 80
 
 state 55
 
-    (40) math_operator -> PLUS .
+    (39) math_operator -> PLUS .
 
-    EQUALS          reduce using rule 40 (math_operator -> PLUS .)
-    ID              reduce using rule 40 (math_operator -> PLUS .)
-    PRINTF          reduce using rule 40 (math_operator -> PLUS .)
-    LPAREN          reduce using rule 40 (math_operator -> PLUS .)
-    NUMBER          reduce using rule 40 (math_operator -> PLUS .)
+    EQUALS          reduce using rule 39 (math_operator -> PLUS .)
+    ID              reduce using rule 39 (math_operator -> PLUS .)
+    PRINTF          reduce using rule 39 (math_operator -> PLUS .)
+    LPAREN          reduce using rule 39 (math_operator -> PLUS .)
+    NUMBER          reduce using rule 39 (math_operator -> PLUS .)
 
 
 state 56
 
-    (41) math_operator -> MINUS .
+    (40) math_operator -> MINUS .
 
-    EQUALS          reduce using rule 41 (math_operator -> MINUS .)
-    ID              reduce using rule 41 (math_operator -> MINUS .)
-    PRINTF          reduce using rule 41 (math_operator -> MINUS .)
-    LPAREN          reduce using rule 41 (math_operator -> MINUS .)
-    NUMBER          reduce using rule 41 (math_operator -> MINUS .)
+    EQUALS          reduce using rule 40 (math_operator -> MINUS .)
+    ID              reduce using rule 40 (math_operator -> MINUS .)
+    PRINTF          reduce using rule 40 (math_operator -> MINUS .)
+    LPAREN          reduce using rule 40 (math_operator -> MINUS .)
+    NUMBER          reduce using rule 40 (math_operator -> MINUS .)
 
 
 state 57
 
-    (42) math_operator -> TIMES .
+    (41) math_operator -> TIMES .
 
-    EQUALS          reduce using rule 42 (math_operator -> TIMES .)
-    ID              reduce using rule 42 (math_operator -> TIMES .)
-    PRINTF          reduce using rule 42 (math_operator -> TIMES .)
-    LPAREN          reduce using rule 42 (math_operator -> TIMES .)
-    NUMBER          reduce using rule 42 (math_operator -> TIMES .)
+    EQUALS          reduce using rule 41 (math_operator -> TIMES .)
+    ID              reduce using rule 41 (math_operator -> TIMES .)
+    PRINTF          reduce using rule 41 (math_operator -> TIMES .)
+    LPAREN          reduce using rule 41 (math_operator -> TIMES .)
+    NUMBER          reduce using rule 41 (math_operator -> TIMES .)
 
 
 state 58
 
-    (43) math_operator -> DIVIDE .
+    (42) math_operator -> DIVIDE .
 
-    EQUALS          reduce using rule 43 (math_operator -> DIVIDE .)
-    ID              reduce using rule 43 (math_operator -> DIVIDE .)
-    PRINTF          reduce using rule 43 (math_operator -> DIVIDE .)
-    LPAREN          reduce using rule 43 (math_operator -> DIVIDE .)
-    NUMBER          reduce using rule 43 (math_operator -> DIVIDE .)
+    EQUALS          reduce using rule 42 (math_operator -> DIVIDE .)
+    ID              reduce using rule 42 (math_operator -> DIVIDE .)
+    PRINTF          reduce using rule 42 (math_operator -> DIVIDE .)
+    LPAREN          reduce using rule 42 (math_operator -> DIVIDE .)
+    NUMBER          reduce using rule 42 (math_operator -> DIVIDE .)
 
 
 state 59
 
-    (44) math_operator -> MODULO .
+    (43) math_operator -> MODULO .
 
-    EQUALS          reduce using rule 44 (math_operator -> MODULO .)
-    ID              reduce using rule 44 (math_operator -> MODULO .)
-    PRINTF          reduce using rule 44 (math_operator -> MODULO .)
-    LPAREN          reduce using rule 44 (math_operator -> MODULO .)
-    NUMBER          reduce using rule 44 (math_operator -> MODULO .)
+    EQUALS          reduce using rule 43 (math_operator -> MODULO .)
+    ID              reduce using rule 43 (math_operator -> MODULO .)
+    PRINTF          reduce using rule 43 (math_operator -> MODULO .)
+    LPAREN          reduce using rule 43 (math_operator -> MODULO .)
+    NUMBER          reduce using rule 43 (math_operator -> MODULO .)
 
 
 state 60
 
-    (45) compare_operator -> COMPARISON .
+    (44) compare_operator -> COMPARISON .
 
-    ID              reduce using rule 45 (compare_operator -> COMPARISON .)
-    PRINTF          reduce using rule 45 (compare_operator -> COMPARISON .)
-    LPAREN          reduce using rule 45 (compare_operator -> COMPARISON .)
-    NUMBER          reduce using rule 45 (compare_operator -> COMPARISON .)
+    ID              reduce using rule 44 (compare_operator -> COMPARISON .)
+    PRINTF          reduce using rule 44 (compare_operator -> COMPARISON .)
+    LPAREN          reduce using rule 44 (compare_operator -> COMPARISON .)
+    NUMBER          reduce using rule 44 (compare_operator -> COMPARISON .)
 
 
 state 61
 
-    (46) compare_operator -> GREATER .
+    (45) compare_operator -> GREATER .
 
-    ID              reduce using rule 46 (compare_operator -> GREATER .)
-    PRINTF          reduce using rule 46 (compare_operator -> GREATER .)
-    LPAREN          reduce using rule 46 (compare_operator -> GREATER .)
-    NUMBER          reduce using rule 46 (compare_operator -> GREATER .)
+    ID              reduce using rule 45 (compare_operator -> GREATER .)
+    PRINTF          reduce using rule 45 (compare_operator -> GREATER .)
+    LPAREN          reduce using rule 45 (compare_operator -> GREATER .)
+    NUMBER          reduce using rule 45 (compare_operator -> GREATER .)
 
 
 state 62
 
-    (47) compare_operator -> LESS .
+    (46) compare_operator -> LESS .
 
-    ID              reduce using rule 47 (compare_operator -> LESS .)
-    PRINTF          reduce using rule 47 (compare_operator -> LESS .)
-    LPAREN          reduce using rule 47 (compare_operator -> LESS .)
-    NUMBER          reduce using rule 47 (compare_operator -> LESS .)
+    ID              reduce using rule 46 (compare_operator -> LESS .)
+    PRINTF          reduce using rule 46 (compare_operator -> LESS .)
+    LPAREN          reduce using rule 46 (compare_operator -> LESS .)
+    NUMBER          reduce using rule 46 (compare_operator -> LESS .)
 
 
 state 63
 
-    (48) compare_operator -> LESSEQUAL .
+    (47) compare_operator -> LESSEQUAL .
 
-    ID              reduce using rule 48 (compare_operator -> LESSEQUAL .)
-    PRINTF          reduce using rule 48 (compare_operator -> LESSEQUAL .)
-    LPAREN          reduce using rule 48 (compare_operator -> LESSEQUAL .)
-    NUMBER          reduce using rule 48 (compare_operator -> LESSEQUAL .)
+    ID              reduce using rule 47 (compare_operator -> LESSEQUAL .)
+    PRINTF          reduce using rule 47 (compare_operator -> LESSEQUAL .)
+    LPAREN          reduce using rule 47 (compare_operator -> LESSEQUAL .)
+    NUMBER          reduce using rule 47 (compare_operator -> LESSEQUAL .)
 
 
 state 64
 
-    (49) compare_operator -> GREATEREQUAL .
+    (48) compare_operator -> GREATEREQUAL .
 
-    ID              reduce using rule 49 (compare_operator -> GREATEREQUAL .)
-    PRINTF          reduce using rule 49 (compare_operator -> GREATEREQUAL .)
-    LPAREN          reduce using rule 49 (compare_operator -> GREATEREQUAL .)
-    NUMBER          reduce using rule 49 (compare_operator -> GREATEREQUAL .)
+    ID              reduce using rule 48 (compare_operator -> GREATEREQUAL .)
+    PRINTF          reduce using rule 48 (compare_operator -> GREATEREQUAL .)
+    LPAREN          reduce using rule 48 (compare_operator -> GREATEREQUAL .)
+    NUMBER          reduce using rule 48 (compare_operator -> GREATEREQUAL .)
 
 
 state 65
 
-    (26) statement -> RETURN ID .
-    (29) expression -> ID . LPAREN function_args RPAREN
-    (52) expression -> ID .
+    (26) statement -> RETURN expression .
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-  ! reduce/reduce conflict for SEMICOLON resolved using rule 26 (statement -> RETURN ID .)
-  ! reduce/reduce conflict for RPAREN resolved using rule 26 (statement -> RETURN ID .)
-    SEMICOLON       reduce using rule 26 (statement -> RETURN ID .)
-    RPAREN          reduce using rule 26 (statement -> RETURN ID .)
-    LPAREN          shift and go to state 46
-    COMPARISON      reduce using rule 52 (expression -> ID .)
-    GREATER         reduce using rule 52 (expression -> ID .)
-    LESS            reduce using rule 52 (expression -> ID .)
-    LESSEQUAL       reduce using rule 52 (expression -> ID .)
-    GREATEREQUAL    reduce using rule 52 (expression -> ID .)
-    PLUS            reduce using rule 52 (expression -> ID .)
-    MINUS           reduce using rule 52 (expression -> ID .)
-    TIMES           reduce using rule 52 (expression -> ID .)
-    DIVIDE          reduce using rule 52 (expression -> ID .)
-    MODULO          reduce using rule 52 (expression -> ID .)
-
-  ! SEMICOLON       [ reduce using rule 52 (expression -> ID .) ]
-  ! RPAREN          [ reduce using rule 52 (expression -> ID .) ]
-
-
-state 66
-
-    (27) statement -> RETURN expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
-
-    SEMICOLON       reduce using rule 27 (statement -> RETURN expression .)
-    RPAREN          reduce using rule 27 (statement -> RETURN expression .)
+    SEMICOLON       reduce using rule 26 (statement -> RETURN expression .)
+    RPAREN          reduce using rule 26 (statement -> RETURN expression .)
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -1138,79 +1107,78 @@ state 66
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
+
+state 66
+
+    (33) statement -> declaration EQUALS . expression
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
+
+    ID              shift and go to state 48
+    PRINTF          shift and go to state 37
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 38
+
+    expression                     shift and go to state 81
 
 state 67
 
-    (34) statement -> declaration EQUALS . expression
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (29) expression -> PRINTF LPAREN . STRING COMMA function_args RPAREN
+    (30) expression -> PRINTF LPAREN . STRING RPAREN
 
-    ID              shift and go to state 48
-    PRINTF          shift and go to state 37
-    LPAREN          shift and go to state 27
-    NUMBER          shift and go to state 38
+    STRING          shift and go to state 82
 
-    expression                     shift and go to state 82
 
 state 68
 
-    (30) expression -> PRINTF LPAREN . STRING COMMA function_args RPAREN
-    (31) expression -> PRINTF LPAREN . STRING RPAREN
-
-    STRING          shift and go to state 83
-
-
-state 69
-
     (16) loop_statement -> WHILE LPAREN . expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> WHILE LPAREN . expression RPAREN line
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 84
+    expression                     shift and go to state 83
 
-state 70
+state 69
 
     (18) loop_statement -> FOR LPAREN . statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN . statement SEMICOLON expression SEMICOLON statement RPAREN line
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (32) declaration -> . type ID
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (31) declaration -> . type ID
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
     RETURN          shift and go to state 35
     ID              shift and go to state 26
@@ -1221,32 +1189,32 @@ state 70
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
 
-    statement                      shift and go to state 85
-    expression                     shift and go to state 86
+    statement                      shift and go to state 84
+    expression                     shift and go to state 85
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 71
+state 70
 
     (11) if_statement -> IF LPAREN . expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> IF LPAREN . expression RPAREN line else_statement
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 87
+    expression                     shift and go to state 86
 
-state 72
+state 71
 
     (4) function_declaration -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .
 
@@ -1257,24 +1225,24 @@ state 72
     $end            reduce using rule 4 (function_declaration -> VOID ID LPAREN args RPAREN LBRACKET body RBRACKET .)
 
 
-state 73
+state 72
 
-    (33) statement -> ID EQUALS expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (32) statement -> ID EQUALS expression .
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    SEMICOLON       reduce using rule 33 (statement -> ID EQUALS expression .)
-    RPAREN          reduce using rule 33 (statement -> ID EQUALS expression .)
+    SEMICOLON       reduce using rule 32 (statement -> ID EQUALS expression .)
+    RPAREN          reduce using rule 32 (statement -> ID EQUALS expression .)
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -1287,33 +1255,33 @@ state 73
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
+
+state 73
+
+    (28) expression -> ID LPAREN function_args . RPAREN
+
+    RPAREN          shift and go to state 87
+
 
 state 74
 
-    (29) expression -> ID LPAREN function_args . RPAREN
-
-    RPAREN          shift and go to state 88
-
-
-state 75
-
     (23) function_args -> expression . COMMA function_args
     (24) function_args -> expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    COMMA           shift and go to state 89
+    COMMA           shift and go to state 88
     RPAREN          reduce using rule 24 (function_args -> expression .)
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
@@ -1327,141 +1295,141 @@ state 75
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
 
-state 76
+state 75
 
     (25) function_args -> empty .
 
     RPAREN          reduce using rule 25 (function_args -> empty .)
 
 
+state 76
+
+    (49) expression -> LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    MODULO          reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    COMPARISON      reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    GREATER         reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    LESS            reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    LESSEQUAL       reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    GREATEREQUAL    reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 49 (expression -> LPAREN expression RPAREN .)
+
+
 state 77
 
-    (50) expression -> LPAREN expression RPAREN .
+    (38) expression -> expression math_operator . expression
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
-    SEMICOLON       reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    TIMES           reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    MODULO          reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    COMPARISON      reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    GREATER         reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    LESS            reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    LESSEQUAL       reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    GREATEREQUAL    reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 50 (expression -> LPAREN expression RPAREN .)
-    COMMA           reduce using rule 50 (expression -> LPAREN expression RPAREN .)
+    ID              shift and go to state 48
+    PRINTF          shift and go to state 37
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 38
 
+    expression                     shift and go to state 78
 
 state 78
 
-    (39) expression -> expression math_operator . expression
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (38) expression -> expression math_operator expression .
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    ID              shift and go to state 48
-    PRINTF          shift and go to state 37
-    LPAREN          shift and go to state 27
-    NUMBER          shift and go to state 38
+  ! shift/reduce conflict for COMPARISON resolved as shift
+  ! shift/reduce conflict for GREATER resolved as shift
+  ! shift/reduce conflict for LESS resolved as shift
+  ! shift/reduce conflict for LESSEQUAL resolved as shift
+  ! shift/reduce conflict for GREATEREQUAL resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MODULO resolved as shift
+    SEMICOLON       reduce using rule 38 (expression -> expression math_operator expression .)
+    RPAREN          reduce using rule 38 (expression -> expression math_operator expression .)
+    COMMA           reduce using rule 38 (expression -> expression math_operator expression .)
+    COMPARISON      shift and go to state 60
+    GREATER         shift and go to state 61
+    LESS            shift and go to state 62
+    LESSEQUAL       shift and go to state 63
+    GREATEREQUAL    shift and go to state 64
+    PLUS            shift and go to state 55
+    MINUS           shift and go to state 56
+    TIMES           shift and go to state 57
+    DIVIDE          shift and go to state 58
+    MODULO          shift and go to state 59
 
-    expression                     shift and go to state 79
+  ! PLUS            [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! MINUS           [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! TIMES           [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! DIVIDE          [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! MODULO          [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! COMPARISON      [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! GREATER         [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! LESS            [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! LESSEQUAL       [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+  ! GREATEREQUAL    [ reduce using rule 38 (expression -> expression math_operator expression .) ]
+
+    math_operator                  shift and go to state 77
+    compare_operator               shift and go to state 54
 
 state 79
 
-    (39) expression -> expression math_operator expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
-
-  ! shift/reduce conflict for COMPARISON resolved as shift
-  ! shift/reduce conflict for GREATER resolved as shift
-  ! shift/reduce conflict for LESS resolved as shift
-  ! shift/reduce conflict for LESSEQUAL resolved as shift
-  ! shift/reduce conflict for GREATEREQUAL resolved as shift
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIVIDE resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-    SEMICOLON       reduce using rule 39 (expression -> expression math_operator expression .)
-    RPAREN          reduce using rule 39 (expression -> expression math_operator expression .)
-    COMMA           reduce using rule 39 (expression -> expression math_operator expression .)
-    COMPARISON      shift and go to state 60
-    GREATER         shift and go to state 61
-    LESS            shift and go to state 62
-    LESSEQUAL       shift and go to state 63
-    GREATEREQUAL    shift and go to state 64
-    PLUS            shift and go to state 55
-    MINUS           shift and go to state 56
-    TIMES           shift and go to state 57
-    DIVIDE          shift and go to state 58
-    MODULO          shift and go to state 59
-
-  ! PLUS            [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! MINUS           [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! TIMES           [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! DIVIDE          [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! MODULO          [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! COMPARISON      [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! GREATER         [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! LESS            [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! LESSEQUAL       [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-  ! GREATEREQUAL    [ reduce using rule 39 (expression -> expression math_operator expression .) ]
-
-    math_operator                  shift and go to state 78
-    compare_operator               shift and go to state 54
-
-state 80
-
-    (35) statement -> expression math_operator EQUALS . expression
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (34) statement -> expression math_operator EQUALS . expression
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 90
+    expression                     shift and go to state 89
 
-state 81
+state 80
 
-    (38) expression -> expression compare_operator expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (37) expression -> expression compare_operator expression .
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
   ! shift/reduce conflict for COMPARISON resolved as shift
   ! shift/reduce conflict for GREATER resolved as shift
@@ -1473,9 +1441,9 @@ state 81
   ! shift/reduce conflict for TIMES resolved as shift
   ! shift/reduce conflict for DIVIDE resolved as shift
   ! shift/reduce conflict for MODULO resolved as shift
-    SEMICOLON       reduce using rule 38 (expression -> expression compare_operator expression .)
-    RPAREN          reduce using rule 38 (expression -> expression compare_operator expression .)
-    COMMA           reduce using rule 38 (expression -> expression compare_operator expression .)
+    SEMICOLON       reduce using rule 37 (expression -> expression compare_operator expression .)
+    RPAREN          reduce using rule 37 (expression -> expression compare_operator expression .)
+    COMMA           reduce using rule 37 (expression -> expression compare_operator expression .)
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -1487,79 +1455,79 @@ state 81
     DIVIDE          shift and go to state 58
     MODULO          shift and go to state 59
 
-  ! PLUS            [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! MINUS           [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! TIMES           [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! DIVIDE          [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! MODULO          [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! COMPARISON      [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! GREATER         [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! LESS            [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! LESSEQUAL       [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
-  ! GREATEREQUAL    [ reduce using rule 38 (expression -> expression compare_operator expression .) ]
+  ! PLUS            [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! MINUS           [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! TIMES           [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! DIVIDE          [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! MODULO          [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! COMPARISON      [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! GREATER         [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! LESS            [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! LESSEQUAL       [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
+  ! GREATEREQUAL    [ reduce using rule 37 (expression -> expression compare_operator expression .) ]
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
+
+state 81
+
+    (33) statement -> declaration EQUALS expression .
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
+
+    SEMICOLON       reduce using rule 33 (statement -> declaration EQUALS expression .)
+    RPAREN          reduce using rule 33 (statement -> declaration EQUALS expression .)
+    COMPARISON      shift and go to state 60
+    GREATER         shift and go to state 61
+    LESS            shift and go to state 62
+    LESSEQUAL       shift and go to state 63
+    GREATEREQUAL    shift and go to state 64
+    PLUS            shift and go to state 55
+    MINUS           shift and go to state 56
+    TIMES           shift and go to state 57
+    DIVIDE          shift and go to state 58
+    MODULO          shift and go to state 59
+
+    compare_operator               shift and go to state 54
+    math_operator                  shift and go to state 77
 
 state 82
 
-    (34) statement -> declaration EQUALS expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (29) expression -> PRINTF LPAREN STRING . COMMA function_args RPAREN
+    (30) expression -> PRINTF LPAREN STRING . RPAREN
 
-    SEMICOLON       reduce using rule 34 (statement -> declaration EQUALS expression .)
-    RPAREN          reduce using rule 34 (statement -> declaration EQUALS expression .)
-    COMPARISON      shift and go to state 60
-    GREATER         shift and go to state 61
-    LESS            shift and go to state 62
-    LESSEQUAL       shift and go to state 63
-    GREATEREQUAL    shift and go to state 64
-    PLUS            shift and go to state 55
-    MINUS           shift and go to state 56
-    TIMES           shift and go to state 57
-    DIVIDE          shift and go to state 58
-    MODULO          shift and go to state 59
+    COMMA           shift and go to state 90
+    RPAREN          shift and go to state 91
 
-    compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
 
 state 83
 
-    (30) expression -> PRINTF LPAREN STRING . COMMA function_args RPAREN
-    (31) expression -> PRINTF LPAREN STRING . RPAREN
-
-    COMMA           shift and go to state 91
-    RPAREN          shift and go to state 92
-
-
-state 84
-
     (16) loop_statement -> WHILE LPAREN expression . RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> WHILE LPAREN expression . RPAREN line
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    RPAREN          shift and go to state 93
+    RPAREN          shift and go to state 92
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -1572,31 +1540,31 @@ state 84
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
 
-state 85
+state 84
 
     (18) loop_statement -> FOR LPAREN statement . SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN statement . SEMICOLON expression SEMICOLON statement RPAREN line
 
-    SEMICOLON       shift and go to state 94
+    SEMICOLON       shift and go to state 93
 
 
-state 86
+state 85
 
-    (35) statement -> expression . math_operator EQUALS expression
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
+    (34) statement -> expression . math_operator EQUALS expression
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
 
     PLUS            shift and go to state 55
     MINUS           shift and go to state 56
@@ -1612,24 +1580,24 @@ state 86
     math_operator                  shift and go to state 53
     compare_operator               shift and go to state 54
 
-state 87
+state 86
 
     (11) if_statement -> IF LPAREN expression . RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> IF LPAREN expression . RPAREN line else_statement
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    RPAREN          shift and go to state 95
+    RPAREN          shift and go to state 94
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -1642,71 +1610,71 @@ state 87
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
+
+state 87
+
+    (28) expression -> ID LPAREN function_args RPAREN .
+
+    SEMICOLON       reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    PLUS            reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    MINUS           reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    TIMES           reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    DIVIDE          reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    MODULO          reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    COMPARISON      reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    GREATER         reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    LESS            reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    LESSEQUAL       reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    GREATEREQUAL    reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    RPAREN          reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+    COMMA           reduce using rule 28 (expression -> ID LPAREN function_args RPAREN .)
+
 
 state 88
-
-    (29) expression -> ID LPAREN function_args RPAREN .
-
-    SEMICOLON       reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    PLUS            reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    MINUS           reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    TIMES           reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    DIVIDE          reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    MODULO          reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    COMPARISON      reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    GREATER         reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    LESS            reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    LESSEQUAL       reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    GREATEREQUAL    reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    RPAREN          reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-    COMMA           reduce using rule 29 (expression -> ID LPAREN function_args RPAREN .)
-
-
-state 89
 
     (23) function_args -> expression COMMA . function_args
     (23) function_args -> . expression COMMA function_args
     (24) function_args -> . expression
     (25) function_args -> . empty
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
-    (56) empty -> .
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
+    (55) empty -> .
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
-    RPAREN          reduce using rule 56 (empty -> .)
+    RPAREN          reduce using rule 55 (empty -> .)
 
-    expression                     shift and go to state 75
-    function_args                  shift and go to state 96
-    empty                          shift and go to state 76
+    expression                     shift and go to state 74
+    function_args                  shift and go to state 95
+    empty                          shift and go to state 75
 
-state 90
+state 89
 
-    (35) statement -> expression math_operator EQUALS expression .
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (34) statement -> expression math_operator EQUALS expression .
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    SEMICOLON       reduce using rule 35 (statement -> expression math_operator EQUALS expression .)
-    RPAREN          reduce using rule 35 (statement -> expression math_operator EQUALS expression .)
+    SEMICOLON       reduce using rule 34 (statement -> expression math_operator EQUALS expression .)
+    RPAREN          reduce using rule 34 (statement -> expression math_operator EQUALS expression .)
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -1718,55 +1686,55 @@ state 90
     DIVIDE          shift and go to state 58
     MODULO          shift and go to state 59
 
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
     compare_operator               shift and go to state 54
 
-state 91
+state 90
 
-    (30) expression -> PRINTF LPAREN STRING COMMA . function_args RPAREN
+    (29) expression -> PRINTF LPAREN STRING COMMA . function_args RPAREN
     (23) function_args -> . expression COMMA function_args
     (24) function_args -> . expression
     (25) function_args -> . empty
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
-    (56) empty -> .
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
+    (55) empty -> .
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
-    RPAREN          reduce using rule 56 (empty -> .)
+    RPAREN          reduce using rule 55 (empty -> .)
 
-    function_args                  shift and go to state 97
-    expression                     shift and go to state 75
-    empty                          shift and go to state 76
+    function_args                  shift and go to state 96
+    expression                     shift and go to state 74
+    empty                          shift and go to state 75
+
+state 91
+
+    (30) expression -> PRINTF LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    PLUS            reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    MINUS           reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    TIMES           reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    DIVIDE          reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    MODULO          reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    COMPARISON      reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    GREATER         reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    LESS            reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    LESSEQUAL       reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    GREATEREQUAL    reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    RPAREN          reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+    COMMA           reduce using rule 30 (expression -> PRINTF LPAREN STRING RPAREN .)
+
 
 state 92
-
-    (31) expression -> PRINTF LPAREN STRING RPAREN .
-
-    SEMICOLON       reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    PLUS            reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    MINUS           reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    TIMES           reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    DIVIDE          reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    MODULO          reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    COMPARISON      reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    GREATER         reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    LESS            reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    LESSEQUAL       reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    GREATEREQUAL    reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    RPAREN          reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-    COMMA           reduce using rule 31 (expression -> PRINTF LPAREN STRING RPAREN .)
-
-
-state 93
 
     (16) loop_statement -> WHILE LPAREN expression RPAREN . LBRACKET body RBRACKET
     (17) loop_statement -> WHILE LPAREN expression RPAREN . line
@@ -1774,34 +1742,33 @@ state 93
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    LBRACKET        shift and go to state 98
+    LBRACKET        shift and go to state 97
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -1815,34 +1782,34 @@ state 93
     DOUBLE          shift and go to state 8
 
     expression                     shift and go to state 32
-    line                           shift and go to state 99
+    line                           shift and go to state 98
     statement                      shift and go to state 31
     loop_statement                 shift and go to state 33
     if_statement                   shift and go to state 34
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 94
+state 93
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON . expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN statement SEMICOLON . expression SEMICOLON statement RPAREN line
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
 
     ID              shift and go to state 48
     PRINTF          shift and go to state 37
     LPAREN          shift and go to state 27
     NUMBER          shift and go to state 38
 
-    expression                     shift and go to state 100
+    expression                     shift and go to state 99
 
-state 95
+state 94
 
     (11) if_statement -> IF LPAREN expression RPAREN . LBRACKET body RBRACKET else_statement
     (12) if_statement -> IF LPAREN expression RPAREN . line else_statement
@@ -1850,34 +1817,33 @@ state 95
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    LBRACKET        shift and go to state 101
+    LBRACKET        shift and go to state 100
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -1891,28 +1857,28 @@ state 95
     DOUBLE          shift and go to state 8
 
     expression                     shift and go to state 32
-    line                           shift and go to state 102
+    line                           shift and go to state 101
     statement                      shift and go to state 31
     loop_statement                 shift and go to state 33
     if_statement                   shift and go to state 34
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 96
+state 95
 
     (23) function_args -> expression COMMA function_args .
 
     RPAREN          reduce using rule 23 (function_args -> expression COMMA function_args .)
 
 
+state 96
+
+    (29) expression -> PRINTF LPAREN STRING COMMA function_args . RPAREN
+
+    RPAREN          shift and go to state 102
+
+
 state 97
-
-    (30) expression -> PRINTF LPAREN STRING COMMA function_args . RPAREN
-
-    RPAREN          shift and go to state 103
-
-
-state 98
 
     (16) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET . body RBRACKET
     (5) body -> . line body
@@ -1921,35 +1887,34 @@ state 98
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -1963,7 +1928,7 @@ state 98
     DOUBLE          shift and go to state 8
 
     expression                     shift and go to state 32
-    body                           shift and go to state 104
+    body                           shift and go to state 103
     line                           shift and go to state 29
     empty                          shift and go to state 30
     statement                      shift and go to state 31
@@ -1972,7 +1937,7 @@ state 98
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 99
+state 98
 
     (17) loop_statement -> WHILE LPAREN expression RPAREN line .
 
@@ -1991,24 +1956,24 @@ state 99
     ELSE            reduce using rule 17 (loop_statement -> WHILE LPAREN expression RPAREN line .)
 
 
-state 100
+state 99
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression . SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN statement SEMICOLON expression . SEMICOLON statement RPAREN line
-    (38) expression -> expression . compare_operator expression
-    (39) expression -> expression . math_operator expression
-    (45) compare_operator -> . COMPARISON
-    (46) compare_operator -> . GREATER
-    (47) compare_operator -> . LESS
-    (48) compare_operator -> . LESSEQUAL
-    (49) compare_operator -> . GREATEREQUAL
-    (40) math_operator -> . PLUS
-    (41) math_operator -> . MINUS
-    (42) math_operator -> . TIMES
-    (43) math_operator -> . DIVIDE
-    (44) math_operator -> . MODULO
+    (37) expression -> expression . compare_operator expression
+    (38) expression -> expression . math_operator expression
+    (44) compare_operator -> . COMPARISON
+    (45) compare_operator -> . GREATER
+    (46) compare_operator -> . LESS
+    (47) compare_operator -> . LESSEQUAL
+    (48) compare_operator -> . GREATEREQUAL
+    (39) math_operator -> . PLUS
+    (40) math_operator -> . MINUS
+    (41) math_operator -> . TIMES
+    (42) math_operator -> . DIVIDE
+    (43) math_operator -> . MODULO
 
-    SEMICOLON       shift and go to state 105
+    SEMICOLON       shift and go to state 104
     COMPARISON      shift and go to state 60
     GREATER         shift and go to state 61
     LESS            shift and go to state 62
@@ -2021,9 +1986,9 @@ state 100
     MODULO          shift and go to state 59
 
     compare_operator               shift and go to state 54
-    math_operator                  shift and go to state 78
+    math_operator                  shift and go to state 77
 
-state 101
+state 100
 
     (11) if_statement -> IF LPAREN expression RPAREN LBRACKET . body RBRACKET else_statement
     (5) body -> . line body
@@ -2032,35 +1997,34 @@ state 101
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -2074,7 +2038,7 @@ state 101
     DOUBLE          shift and go to state 8
 
     expression                     shift and go to state 32
-    body                           shift and go to state 106
+    body                           shift and go to state 105
     line                           shift and go to state 29
     empty                          shift and go to state 30
     statement                      shift and go to state 31
@@ -2083,84 +2047,83 @@ state 101
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 102
+state 101
 
     (12) if_statement -> IF LPAREN expression RPAREN line . else_statement
     (13) else_statement -> . ELSE LBRACKET body RBRACKET
     (14) else_statement -> . ELSE line
     (15) else_statement -> . empty
-    (56) empty -> .
+    (55) empty -> .
 
   ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 108
-    RETURN          reduce using rule 56 (empty -> .)
-    ID              reduce using rule 56 (empty -> .)
-    PRINTF          reduce using rule 56 (empty -> .)
-    LPAREN          reduce using rule 56 (empty -> .)
-    NUMBER          reduce using rule 56 (empty -> .)
-    WHILE           reduce using rule 56 (empty -> .)
-    FOR             reduce using rule 56 (empty -> .)
-    IF              reduce using rule 56 (empty -> .)
-    INT             reduce using rule 56 (empty -> .)
-    FLOAT           reduce using rule 56 (empty -> .)
-    DOUBLE          reduce using rule 56 (empty -> .)
-    RBRACKET        reduce using rule 56 (empty -> .)
+    ELSE            shift and go to state 107
+    RETURN          reduce using rule 55 (empty -> .)
+    ID              reduce using rule 55 (empty -> .)
+    PRINTF          reduce using rule 55 (empty -> .)
+    LPAREN          reduce using rule 55 (empty -> .)
+    NUMBER          reduce using rule 55 (empty -> .)
+    WHILE           reduce using rule 55 (empty -> .)
+    FOR             reduce using rule 55 (empty -> .)
+    IF              reduce using rule 55 (empty -> .)
+    INT             reduce using rule 55 (empty -> .)
+    FLOAT           reduce using rule 55 (empty -> .)
+    DOUBLE          reduce using rule 55 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
 
-  ! ELSE            [ reduce using rule 56 (empty -> .) ]
+  ! ELSE            [ reduce using rule 55 (empty -> .) ]
 
-    else_statement                 shift and go to state 107
-    empty                          shift and go to state 109
+    else_statement                 shift and go to state 106
+    empty                          shift and go to state 108
+
+state 102
+
+    (29) expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .
+
+    SEMICOLON       reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    PLUS            reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    MINUS           reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    TIMES           reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    DIVIDE          reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    MODULO          reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    COMPARISON      reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    GREATER         reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    LESS            reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    LESSEQUAL       reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    GREATEREQUAL    reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    RPAREN          reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    COMMA           reduce using rule 29 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+
 
 state 103
 
-    (30) expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .
+    (16) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body . RBRACKET
 
-    SEMICOLON       reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    PLUS            reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    MINUS           reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    TIMES           reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    DIVIDE          reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    MODULO          reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    COMPARISON      reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    GREATER         reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    LESS            reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    LESSEQUAL       reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    GREATEREQUAL    reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    RPAREN          reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
-    COMMA           reduce using rule 30 (expression -> PRINTF LPAREN STRING COMMA function_args RPAREN .)
+    RBRACKET        shift and go to state 109
 
 
 state 104
 
-    (16) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body . RBRACKET
-
-    RBRACKET        shift and go to state 110
-
-
-state 105
-
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON . statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON . statement RPAREN line
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (32) declaration -> . type ID
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (31) declaration -> . type ID
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
     RETURN          shift and go to state 35
     ID              shift and go to state 26
@@ -2171,19 +2134,19 @@ state 105
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
 
-    statement                      shift and go to state 111
-    expression                     shift and go to state 86
+    statement                      shift and go to state 110
+    expression                     shift and go to state 85
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 106
+state 105
 
     (11) if_statement -> IF LPAREN expression RPAREN LBRACKET body . RBRACKET else_statement
 
-    RBRACKET        shift and go to state 112
+    RBRACKET        shift and go to state 111
 
 
-state 107
+state 106
 
     (12) if_statement -> IF LPAREN expression RPAREN line else_statement .
 
@@ -2202,7 +2165,7 @@ state 107
     ELSE            reduce using rule 12 (if_statement -> IF LPAREN expression RPAREN line else_statement .)
 
 
-state 108
+state 107
 
     (13) else_statement -> ELSE . LBRACKET body RBRACKET
     (14) else_statement -> ELSE . line
@@ -2210,34 +2173,33 @@ state 108
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    LBRACKET        shift and go to state 113
+    LBRACKET        shift and go to state 112
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -2250,7 +2212,7 @@ state 108
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
 
-    line                           shift and go to state 114
+    line                           shift and go to state 113
     statement                      shift and go to state 31
     expression                     shift and go to state 32
     loop_statement                 shift and go to state 33
@@ -2258,7 +2220,7 @@ state 108
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 109
+state 108
 
     (15) else_statement -> empty .
 
@@ -2277,7 +2239,7 @@ state 109
     ELSE            reduce using rule 15 (else_statement -> empty .)
 
 
-state 110
+state 109
 
     (16) loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .
 
@@ -2296,43 +2258,43 @@ state 110
     ELSE            reduce using rule 16 (loop_statement -> WHILE LPAREN expression RPAREN LBRACKET body RBRACKET .)
 
 
-state 111
+state 110
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement . RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement . RPAREN line
 
-    RPAREN          shift and go to state 115
+    RPAREN          shift and go to state 114
 
 
-state 112
+state 111
 
     (11) if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET . else_statement
     (13) else_statement -> . ELSE LBRACKET body RBRACKET
     (14) else_statement -> . ELSE line
     (15) else_statement -> . empty
-    (56) empty -> .
+    (55) empty -> .
 
   ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 108
-    RETURN          reduce using rule 56 (empty -> .)
-    ID              reduce using rule 56 (empty -> .)
-    PRINTF          reduce using rule 56 (empty -> .)
-    LPAREN          reduce using rule 56 (empty -> .)
-    NUMBER          reduce using rule 56 (empty -> .)
-    WHILE           reduce using rule 56 (empty -> .)
-    FOR             reduce using rule 56 (empty -> .)
-    IF              reduce using rule 56 (empty -> .)
-    INT             reduce using rule 56 (empty -> .)
-    FLOAT           reduce using rule 56 (empty -> .)
-    DOUBLE          reduce using rule 56 (empty -> .)
-    RBRACKET        reduce using rule 56 (empty -> .)
+    ELSE            shift and go to state 107
+    RETURN          reduce using rule 55 (empty -> .)
+    ID              reduce using rule 55 (empty -> .)
+    PRINTF          reduce using rule 55 (empty -> .)
+    LPAREN          reduce using rule 55 (empty -> .)
+    NUMBER          reduce using rule 55 (empty -> .)
+    WHILE           reduce using rule 55 (empty -> .)
+    FOR             reduce using rule 55 (empty -> .)
+    IF              reduce using rule 55 (empty -> .)
+    INT             reduce using rule 55 (empty -> .)
+    FLOAT           reduce using rule 55 (empty -> .)
+    DOUBLE          reduce using rule 55 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
 
-  ! ELSE            [ reduce using rule 56 (empty -> .) ]
+  ! ELSE            [ reduce using rule 55 (empty -> .) ]
 
-    else_statement                 shift and go to state 116
-    empty                          shift and go to state 109
+    else_statement                 shift and go to state 115
+    empty                          shift and go to state 108
 
-state 113
+state 112
 
     (13) else_statement -> ELSE LBRACKET . body RBRACKET
     (5) body -> . line body
@@ -2341,35 +2303,34 @@ state 113
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -2382,7 +2343,7 @@ state 113
     FLOAT           shift and go to state 7
     DOUBLE          shift and go to state 8
 
-    body                           shift and go to state 117
+    body                           shift and go to state 116
     line                           shift and go to state 29
     empty                          shift and go to state 30
     statement                      shift and go to state 31
@@ -2392,7 +2353,7 @@ state 113
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 114
+state 113
 
     (14) else_statement -> ELSE line .
 
@@ -2411,7 +2372,7 @@ state 114
     ELSE            reduce using rule 14 (else_statement -> ELSE line .)
 
 
-state 115
+state 114
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN . LBRACKET body RBRACKET
     (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN . line
@@ -2419,34 +2380,33 @@ state 115
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    LBRACKET        shift and go to state 118
+    LBRACKET        shift and go to state 117
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -2461,13 +2421,13 @@ state 115
 
     statement                      shift and go to state 31
     expression                     shift and go to state 32
-    line                           shift and go to state 119
+    line                           shift and go to state 118
     loop_statement                 shift and go to state 33
     if_statement                   shift and go to state 34
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 116
+state 115
 
     (11) if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .
 
@@ -2486,14 +2446,14 @@ state 116
     ELSE            reduce using rule 11 (if_statement -> IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement .)
 
 
-state 117
+state 116
 
     (13) else_statement -> ELSE LBRACKET body . RBRACKET
 
-    RBRACKET        shift and go to state 120
+    RBRACKET        shift and go to state 119
 
 
-state 118
+state 117
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET . body RBRACKET
     (5) body -> . line body
@@ -2502,35 +2462,34 @@ state 118
     (8) line -> . expression SEMICOLON
     (9) line -> . loop_statement
     (10) line -> . if_statement
-    (56) empty -> .
-    (26) statement -> . RETURN ID
-    (27) statement -> . RETURN expression
-    (28) statement -> . RETURN
-    (33) statement -> . ID EQUALS expression
-    (34) statement -> . declaration EQUALS expression
-    (35) statement -> . expression math_operator EQUALS expression
-    (36) statement -> . ID INCREMENT
-    (37) statement -> . ID DECREMENT
-    (29) expression -> . ID LPAREN function_args RPAREN
-    (30) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
-    (31) expression -> . PRINTF LPAREN STRING RPAREN
-    (38) expression -> . expression compare_operator expression
-    (39) expression -> . expression math_operator expression
-    (50) expression -> . LPAREN expression RPAREN
-    (51) expression -> . NUMBER
-    (52) expression -> . ID
+    (55) empty -> .
+    (26) statement -> . RETURN expression
+    (27) statement -> . RETURN
+    (32) statement -> . ID EQUALS expression
+    (33) statement -> . declaration EQUALS expression
+    (34) statement -> . expression math_operator EQUALS expression
+    (35) statement -> . ID INCREMENT
+    (36) statement -> . ID DECREMENT
+    (28) expression -> . ID LPAREN function_args RPAREN
+    (29) expression -> . PRINTF LPAREN STRING COMMA function_args RPAREN
+    (30) expression -> . PRINTF LPAREN STRING RPAREN
+    (37) expression -> . expression compare_operator expression
+    (38) expression -> . expression math_operator expression
+    (49) expression -> . LPAREN expression RPAREN
+    (50) expression -> . NUMBER
+    (51) expression -> . ID
     (16) loop_statement -> . WHILE LPAREN expression RPAREN LBRACKET body RBRACKET
     (17) loop_statement -> . WHILE LPAREN expression RPAREN line
     (18) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET
     (19) loop_statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line
     (11) if_statement -> . IF LPAREN expression RPAREN LBRACKET body RBRACKET else_statement
     (12) if_statement -> . IF LPAREN expression RPAREN line else_statement
-    (32) declaration -> . type ID
-    (53) type -> . INT
-    (54) type -> . FLOAT
-    (55) type -> . DOUBLE
+    (31) declaration -> . type ID
+    (52) type -> . INT
+    (53) type -> . FLOAT
+    (54) type -> . DOUBLE
 
-    RBRACKET        reduce using rule 56 (empty -> .)
+    RBRACKET        reduce using rule 55 (empty -> .)
     RETURN          shift and go to state 35
     ID              shift and go to state 26
     PRINTF          shift and go to state 37
@@ -2545,7 +2504,7 @@ state 118
 
     statement                      shift and go to state 31
     expression                     shift and go to state 32
-    body                           shift and go to state 121
+    body                           shift and go to state 120
     line                           shift and go to state 29
     empty                          shift and go to state 30
     loop_statement                 shift and go to state 33
@@ -2553,7 +2512,7 @@ state 118
     declaration                    shift and go to state 36
     type                           shift and go to state 14
 
-state 119
+state 118
 
     (19) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line .
 
@@ -2572,7 +2531,7 @@ state 119
     ELSE            reduce using rule 19 (loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN line .)
 
 
-state 120
+state 119
 
     (13) else_statement -> ELSE LBRACKET body RBRACKET .
 
@@ -2591,14 +2550,14 @@ state 120
     ELSE            reduce using rule 13 (else_statement -> ELSE LBRACKET body RBRACKET .)
 
 
-state 121
+state 120
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body . RBRACKET
 
-    RBRACKET        shift and go to state 122
+    RBRACKET        shift and go to state 121
 
 
-state 122
+state 121
 
     (18) loop_statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LBRACKET body RBRACKET .
 
@@ -2619,27 +2578,25 @@ state 122
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for COMPARISON in state 79 resolved as shift
-WARNING: shift/reduce conflict for GREATER in state 79 resolved as shift
-WARNING: shift/reduce conflict for LESS in state 79 resolved as shift
-WARNING: shift/reduce conflict for LESSEQUAL in state 79 resolved as shift
-WARNING: shift/reduce conflict for GREATEREQUAL in state 79 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 79 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 79 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 79 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 79 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 79 resolved as shift
-WARNING: shift/reduce conflict for COMPARISON in state 81 resolved as shift
-WARNING: shift/reduce conflict for GREATER in state 81 resolved as shift
-WARNING: shift/reduce conflict for LESS in state 81 resolved as shift
-WARNING: shift/reduce conflict for LESSEQUAL in state 81 resolved as shift
-WARNING: shift/reduce conflict for GREATEREQUAL in state 81 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 81 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 81 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 81 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 81 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 81 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 102 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 112 resolved as shift
-WARNING: reduce/reduce conflict in state 65 resolved using rule (statement -> RETURN ID)
-WARNING: rejected rule (expression -> ID) in state 65
+WARNING: shift/reduce conflict for COMPARISON in state 78 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 78 resolved as shift
+WARNING: shift/reduce conflict for LESS in state 78 resolved as shift
+WARNING: shift/reduce conflict for LESSEQUAL in state 78 resolved as shift
+WARNING: shift/reduce conflict for GREATEREQUAL in state 78 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 78 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 78 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 78 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 78 resolved as shift
+WARNING: shift/reduce conflict for MODULO in state 78 resolved as shift
+WARNING: shift/reduce conflict for COMPARISON in state 80 resolved as shift
+WARNING: shift/reduce conflict for GREATER in state 80 resolved as shift
+WARNING: shift/reduce conflict for LESS in state 80 resolved as shift
+WARNING: shift/reduce conflict for LESSEQUAL in state 80 resolved as shift
+WARNING: shift/reduce conflict for GREATEREQUAL in state 80 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 80 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 80 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 80 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 80 resolved as shift
+WARNING: shift/reduce conflict for MODULO in state 80 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 101 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 111 resolved as shift
